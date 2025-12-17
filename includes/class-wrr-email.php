@@ -222,6 +222,11 @@ if ( ! class_exists( 'WRR_Email' ) ) {
 	 * @return string
 	 */
 	public function get_content_plain() {
+		// Ensure we have order and product for preview
+		if ( ! $this->object || ! $this->product ) {
+			$this->prepare_preview_data( $this );
+		}
+
 		return wc_get_template_html(
 			$this->template_plain,
 			array(
