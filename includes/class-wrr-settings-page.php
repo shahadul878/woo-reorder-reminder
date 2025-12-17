@@ -24,6 +24,9 @@ class WRR_Settings_Page extends WC_Settings_Page {
 		$this->label = __( 'Re-Order Reminder', 'woo-reorder-reminder' );
 
 		parent::__construct();
+
+		// Handle test email AJAX
+		add_action( 'wp_ajax_wrr_send_test_email', array( $this, 'send_test_email_ajax' ) );
 	}
 
 	/**
@@ -132,16 +135,6 @@ class WRR_Settings_Page extends WC_Settings_Page {
 		});
 		</script>
 		<?php
-	}
-
-	/**
-	 * Constructor
-	 */
-	public function __construct() {
-		parent::__construct();
-		
-		// Handle test email AJAX
-		add_action( 'wp_ajax_wrr_send_test_email', array( $this, 'send_test_email_ajax' ) );
 	}
 
 	/**
