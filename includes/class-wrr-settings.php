@@ -40,7 +40,7 @@ class WRR_Settings {
 		add_action( 'woocommerce_process_product_meta', array( $this, 'save_product_fields' ) );
 		add_action( 'admin_init', array( $this, 'handle_unsubscribe' ) );
 		add_action( 'init', array( $this, 'handle_unsubscribe_frontend' ) );
-		add_action( 'admin_menu', array( $this, 'add_logs_page' ) );
+		add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
 	}
 
 	/**
@@ -174,17 +174,46 @@ class WRR_Settings {
 	}
 
 	/**
-	 * Add logs page
+	 * Add admin menu pages
 	 */
-	public function add_logs_page() {
+	public function add_admin_menu() {
+		// Main settings page
+		add_menu_page(
+			__( 'Re-Order Reminder', 'woo-reorder-reminder' ),
+			__( 'Re-Order Reminder', 'woo-reorder-reminder' ),
+			'manage_woocommerce',
+			'wrr-settings',
+			array( $this, 'render_settings_page' ),
+			'dashicons-email-alt',
+			56
+		);
+
+		// Settings submenu (same as main page)
 		add_submenu_page(
-			'woocommerce',
+			'wrr-settings',
+			__( 'Settings', 'woo-reorder-reminder' ),
+			__( 'Settings', 'woo-reorder-reminder' ),
+			'manage_woocommerce',
+			'wrr-settings',
+			array( $this, 'render_settings_page' )
+		);
+
+		// Logs submenu
+		add_submenu_page(
+			'wrr-settings',
 			__( 'Re-Order Reminder Logs', 'woo-reorder-reminder' ),
-			__( 'Re-Order Logs', 'woo-reorder-reminder' ),
+			__( 'Logs', 'woo-reorder-reminder' ),
 			'manage_woocommerce',
 			'wrr-logs',
 			array( $this, 'render_logs_page' )
 		);
+	}
+
+	/**
+	 * Render main settings page
+	 */
+	public function render_settings_page() {
+		include WRR_PATH . 'includes/views/admin-settings-page.php';
 	}
 
 	/**
