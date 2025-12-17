@@ -102,8 +102,10 @@ class WRR_Plugin {
 	 */
 	public function add_email_class( $emails ) {
 		if ( class_exists( 'WRR_Email' ) ) {
-			// Use the email ID as the key, not the class name
+			// WooCommerce expects class name as key, but we can also use the email ID
+			// Using both for compatibility
 			$email_instance = WRR_Email::instance();
+			$emails['WRR_Email'] = $email_instance;
 			$emails[ $email_instance->id ] = $email_instance;
 		}
 		return $emails;
