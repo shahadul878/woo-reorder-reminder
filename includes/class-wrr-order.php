@@ -36,6 +36,9 @@ class WRR_Order {
 	 */
 	private function __construct() {
 		add_action( 'woocommerce_order_status_completed', array( $this, 'save_order_data' ), 10, 1 );
+		add_action( 'woocommerce_thankyou', array( $this, 'display_reminder_selector' ), 20 );
+		add_action( 'wp_ajax_wrr_save_reminder_days', array( $this, 'save_reminder_days_ajax' ) );
+		add_action( 'wp_ajax_nopriv_wrr_save_reminder_days', array( $this, 'save_reminder_days_ajax' ) );
 	}
 
 	/**
@@ -80,6 +83,76 @@ class WRR_Order {
 			// Log pending reminder
 			WRR_Logger::log( $order_id, $product_id, $email, 'pending' );
 		}
+	}
+
+	/**
+	 * Display reminder day selector on thank you page
+	 *
+	 * @param int $order_id Order ID.
+	 */
+	public function display_reminder_selector( $order_id ) {
+		$order = wc_get_order( $order_id );
+		if ( ! $order ) {
+			return;
+		}
+
+		// Only show for completed orders
+		if ( ! $order->has_status( 'completed' ) ) {
+			return;
+		}
+
+		wc_get_template(
+			'thankyou-reminder-selector.php',
+			array( 'order' => $order ),
+			'',
+			WRR_PATH . 'templates/'
+		);
+	}
+
+	/**
+	 * Save reminder days via AJAX
+	 */
+	public function save_reminder_days_ajax() {
+		// Verify nonce
+		$order_id = isset( $_POST['order_id'] ) ? absint( $_POST['order_id'] ) : 0;
+		$nonce    = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+
+		if ( ! wp_verify_nonce( $nonce, 'wrr_save_reminder_days_' . $order_id ) ) {
+			wp_send_json_error( __( 'Invalid security token.', 'woo-reorder-reminder' ) );
+		}
+
+		$order = wc_get_order( $order_id );
+		if ( ! $order ) {
+			wp_send_json_error( __( 'Order not found.', 'woo-reorder-reminder' ) );
+		}
+
+		// Verify user has access to this order
+		// Check if user is logged in and owns the order
+		$has_access = false;
+		if ( is_user_logged_in() && get_current_user_id() === $order->get_user_id() ) {
+			$has_access = true;
+		} else {
+			// Check order key from referrer or session
+			$order_key = isset( $_REQUEST['key'] ) ? wc_clean( wp_unslash( $_REQUEST['key'] ) ) : '';
+			if ( $order_key && $order->get_order_key() === $order_key ) {
+				$has_access = true;
+			}
+		}
+
+		if ( ! $has_access ) {
+			wp_send_json_error( __( 'Permission denied.', 'woo-reorder-reminder' ) );
+		}
+
+		$reminder_days = isset( $_POST['reminder_days'] ) ? absint( $_POST['reminder_days'] ) : 0;
+
+		if ( $reminder_days < 1 ) {
+			wp_send_json_error( __( 'Invalid reminder days.', 'woo-reorder-reminder' ) );
+		}
+
+		// Save customer preference
+		update_post_meta( $order_id, '_wrr_customer_reminder_days', $reminder_days );
+
+		wp_send_json_success( __( 'Reminder preference saved successfully.', 'woo-reorder-reminder' ) );
 	}
 }
 

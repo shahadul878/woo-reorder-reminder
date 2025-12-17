@@ -113,9 +113,17 @@ class WRR_Cron {
 					continue;
 				}
 
-				// Get reminder days for this product (or use global)
-				$reminder_days = $this->get_reminder_days( $product_id, $global_days );
-				$order_date    = $order->get_date_completed();
+				// Get reminder days - check customer preference first, then product, then global
+				$customer_days = get_post_meta( $order_id, '_wrr_customer_reminder_days', true );
+				if ( $customer_days && $customer_days > 0 ) {
+					// Use customer's selected preference
+					$reminder_days = absint( $customer_days );
+				} else {
+					// Fall back to product or global setting
+					$reminder_days = $this->get_reminder_days( $product_id, $global_days );
+				}
+
+				$order_date = $order->get_date_completed();
 				if ( ! $order_date ) {
 					continue;
 				}
