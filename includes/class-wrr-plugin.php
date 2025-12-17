@@ -117,13 +117,14 @@ class WRR_Plugin {
 				return $emails;
 			}
 			
-			// WooCommerce core emails use class name as key, but we can also use email ID
-			// Register with both for maximum compatibility
-			$emails['WRR_Email'] = $email_instance;
-			$emails[ $email_instance->id ] = $email_instance;
-			
-			// Debug log
-			error_log( 'WRR Debug: Email registered with class: WRR_Email, ID: ' . $email_instance->id );
+			// WooCommerce uses email ID as the key for email settings
+			// Only register once with the email ID to avoid duplicates
+			// Check if already registered to prevent duplicates
+			if ( ! isset( $emails[ $email_instance->id ] ) ) {
+				$emails[ $email_instance->id ] = $email_instance;
+				// Debug log
+				error_log( 'WRR Debug: Email registered with ID: ' . $email_instance->id );
+			}
 		} catch ( Exception $e ) {
 			// Log error but don't break
 			error_log( 'WRR Email registration error: ' . $e->getMessage() );
