@@ -66,9 +66,6 @@ class WRR_Plugin {
 		// Register email class with WooCommerce - try multiple hooks to ensure it works
 		add_action( 'woocommerce_loaded', array( $this, 'register_email_class' ) );
 		add_action( 'woocommerce_init', array( $this, 'register_email_class' ) );
-		
-		// Also hook directly to the filter as a fallback
-		add_filter( 'woocommerce_email_classes', array( $this, 'add_email_class' ), 20 );
 	}
 
 	/**
