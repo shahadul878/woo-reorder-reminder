@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<ruleset name="WooCommerce Re-Order Reminder">
+	<description>PHPCS configuration for Easy WooCommerce Re-Order Reminder plugin - WordPress compatible</description>
+
+	<!-- What to scan -->
+	<file>woo-reorder-reminder.php</file>
+	<file>includes/</file>
+	<file>templates/</file>
+
+	<!-- How to scan -->
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+	<exclude-pattern>*/node_modules/*</exclude-pattern>
+	<exclude-pattern>*/languages/*</exclude-pattern>
+	<exclude-pattern>*/assets/*</exclude-pattern>
+
+	<!-- Use PSR12 as base but exclude WordPress-specific violations -->
+	<rule ref="PSR12">
+		<!-- Allow tabs for indentation (WordPress standard) -->
+		<exclude name="Generic.WhiteSpace.DisallowTabIndent"/>
+		
+		<!-- Allow underscores in class names (WordPress convention: WRR_Plugin) -->
+		<exclude name="Squiz.Classes.ValidClassName.NotCamelCaps"/>
+		
+		<!-- Allow no namespaces (common in WordPress plugins) -->
+		<exclude name="PSR1.Classes.ClassDeclaration.MissingNamespace"/>
+		
+		<!-- Allow side effects with symbols (WordPress pattern) -->
+		<exclude name="PSR1.Files.SideEffects.FoundWithSymbols"/>
+		
+		<!-- Allow opening braces on same line (WordPress style) -->
+		<exclude name="PSR2.Classes.ClassDeclaration.OpenBraceNewLine"/>
+		<exclude name="PSR12.Classes.OpeningBraceSpace.Found"/>
+		
+		<!-- Allow function opening braces on same line -->
+		<exclude name="PSR2.Methods.FunctionClosingBrace.SpacingBeforeClose"/>
+		
+		<!-- More lenient line length for WordPress (120 chars is common) -->
+		<exclude name="Generic.Files.LineLength"/>
+	</rule>
+
+	<!-- Report width for better readability -->
+	<arg name="report-width" value="120"/>
+	
+	<!-- Show sniff codes in all reports -->
+	<arg value="sp"/>
+</ruleset>
