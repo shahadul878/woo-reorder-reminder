@@ -96,8 +96,8 @@ class WRR_Order {
 			return;
 		}
 
-		// Only show for completed orders
-		if ( ! $order->has_status( 'completed' ) ) {
+		// Do not show for failed orders
+		if ( $order->has_status( 'failed' ) ) {
 			return;
 		}
 

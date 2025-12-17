@@ -9,7 +9,10 @@
 defined( 'ABSPATH' ) || exit;
 
 // Check if reminders are enabled
-if ( 'yes' !== get_option( 'wrr_enable_reminder', 'yes' ) ) {
+$reminders_enabled = get_option( 'wrr_enable_reminder', 'yes' );
+if ( 'yes' !== $reminders_enabled ) {
+	// Debug: Uncomment to see why selector is not showing
+	// error_log( 'WRR Debug: Reminders disabled globally' );
 	return;
 }
 
@@ -35,6 +38,8 @@ foreach ( $order->get_items() as $item ) {
 }
 
 if ( ! $has_reminder_products ) {
+	// Debug: Uncomment to see why selector is not showing
+	// error_log( 'WRR Debug: No products with reminders enabled in order #' . $order->get_id() );
 	return;
 }
 ?>
