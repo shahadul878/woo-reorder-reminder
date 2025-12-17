@@ -55,6 +55,7 @@ class WRR_Plugin {
 	 */
 	private function init_hooks() {
 		register_activation_hook( WRR_FILE, array( 'WRR_Cron', 'activate' ) );
+		register_activation_hook( WRR_FILE, array( 'WRR_Logger', 'create_log_table' ) );
 		register_deactivation_hook( WRR_FILE, array( 'WRR_Cron', 'deactivate' ) );
 
 		// Load text domain

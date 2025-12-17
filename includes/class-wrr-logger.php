@@ -35,8 +35,21 @@ class WRR_Logger {
 	 * Constructor
 	 */
 	private function __construct() {
-		// Create log table on activation
-		register_activation_hook( WRR_FILE, array( __CLASS__, 'create_log_table' ) );
+		// Table creation is handled by plugin activation hook
+		// Also ensure table exists when logger is first used
+		add_action( 'init', array( __CLASS__, 'maybe_create_table' ), 5 );
+	}
+
+	/**
+	 * Maybe create table if it doesn't exist
+	 */
+	public static function maybe_create_table() {
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'wrr_logs';
+		
+		if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table_name ) ) !== $table_name ) {
+			self::create_log_table();
+		}
 	}
 
 	/**
@@ -114,6 +127,11 @@ class WRR_Logger {
 
 		$table_name = $wpdb->prefix . 'wrr_logs';
 
+		// Ensure table exists before querying
+		if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table_name ) ) !== $table_name ) {
+			self::create_log_table();
+		}
+
 		$defaults = array(
 			'limit'  => 50,
 			'offset' => 0,
@@ -148,6 +166,11 @@ class WRR_Logger {
 		global $wpdb;
 
 		$table_name = $wpdb->prefix . 'wrr_logs';
+
+		// Ensure table exists before querying
+		if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table_name ) ) !== $table_name ) {
+			self::create_log_table();
+		}
 
 		$where = '1=1';
 
