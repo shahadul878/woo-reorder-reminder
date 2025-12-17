@@ -10,7 +10,6 @@ defined( 'ABSPATH' ) || exit;
 /**
  * WRR_Email Class
  */
-if ( ! class_exists( 'WRR_Email' ) && class_exists( 'WC_Email' ) ) {
 	class WRR_Email extends WC_Email {
 
 	/**
