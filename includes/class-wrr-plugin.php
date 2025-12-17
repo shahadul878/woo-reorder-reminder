@@ -63,8 +63,8 @@ class WRR_Plugin {
 		// Initialize components
 		add_action( 'init', array( $this, 'init_components' ) );
 
-		// Register email class with WooCommerce (after WooCommerce emails are loaded)
-		add_filter( 'woocommerce_email_classes', array( $this, 'add_email_class' ) );
+		// Register email class with WooCommerce (after WooCommerce is loaded)
+		add_action( 'woocommerce_init', array( $this, 'register_email_class' ) );
 	}
 
 	/**
@@ -85,13 +85,25 @@ class WRR_Plugin {
 	}
 
 	/**
+	 * Register email class with WooCommerce
+	 */
+	public function register_email_class() {
+		// Ensure WC_Email class exists before registering
+		if ( class_exists( 'WC_Email' ) && class_exists( 'WRR_Email' ) ) {
+			add_filter( 'woocommerce_email_classes', array( $this, 'add_email_class' ) );
+		}
+	}
+
+	/**
 	 * Add email class to WooCommerce emails
 	 *
 	 * @param array $emails Email classes.
 	 * @return array
 	 */
 	public function add_email_class( $emails ) {
-		$emails['WRR_Email'] = WRR_Email::instance();
+		if ( class_exists( 'WRR_Email' ) ) {
+			$emails['WRR_Email'] = WRR_Email::instance();
+		}
 		return $emails;
 	}
 }
