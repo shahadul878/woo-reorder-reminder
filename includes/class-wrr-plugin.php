@@ -45,7 +45,7 @@ class WRR_Plugin {
 	private function includes() {
 		require_once WRR_PATH . 'includes/class-wrr-cron.php';
 		require_once WRR_PATH . 'includes/class-wrr-order.php';
-		require_once WRR_PATH . 'includes/class-wrr-email.php';
+		// Email class will be loaded after WooCommerce is available
 		require_once WRR_PATH . 'includes/class-wrr-settings.php';
 		require_once WRR_PATH . 'includes/class-wrr-logger.php';
 	}
@@ -97,12 +97,12 @@ class WRR_Plugin {
 			return;
 		}
 
-		// Re-include email class if it wasn't loaded (in case WC_Email wasn't available when first included)
+		// Load email class now that WooCommerce is available
 		if ( ! class_exists( 'WRR_Email' ) ) {
 			require_once WRR_PATH . 'includes/class-wrr-email.php';
 		}
 
-		// Now register the filter - hook it directly here
+		// Now register the filter if class exists
 		if ( class_exists( 'WRR_Email' ) ) {
 			add_filter( 'woocommerce_email_classes', array( $this, 'add_email_class' ), 20 );
 		}
