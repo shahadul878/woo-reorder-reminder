@@ -14,7 +14,8 @@ if ( ! class_exists( 'WC_Email' ) ) {
 /**
  * WRR_Email Class
  */
-class WRR_Email extends WC_Email {
+if ( ! class_exists( 'WRR_Email' ) ) {
+	class WRR_Email extends WC_Email {
 
 	/**
 	 * Instance
@@ -258,5 +259,5 @@ class WRR_Email extends WC_Email {
 
 		return true;
 	}
-}
+} // End if class_exists check
 

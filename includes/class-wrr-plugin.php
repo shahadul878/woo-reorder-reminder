@@ -63,9 +63,9 @@ class WRR_Plugin {
 		// Initialize components
 		add_action( 'init', array( $this, 'init_components' ) );
 
-		// Register email class with WooCommerce - try multiple hooks to ensure it works
-		add_action( 'woocommerce_loaded', array( $this, 'register_email_class' ) );
-		add_action( 'woocommerce_init', array( $this, 'register_email_class' ) );
+		// Register email filter early - hook it directly so it's available when WooCommerce initializes emails
+		// The filter will load the class when it's called
+		add_filter( 'woocommerce_email_classes', array( $this, 'add_email_class' ), 20 );
 	}
 
 	/**
@@ -86,42 +86,26 @@ class WRR_Plugin {
 	}
 
 	/**
-	 * Register email class with WooCommerce
-	 */
-	public function register_email_class() {
-		// Ensure WC_Email exists before registering
-		if ( ! class_exists( 'WC_Email' ) ) {
-			return;
-		}
-
-		// Load email class now that WooCommerce is available
-		if ( ! class_exists( 'WRR_Email' ) ) {
-			require_once WRR_PATH . 'includes/class-wrr-email.php';
-		}
-
-		// Now register the filter if class exists
-		if ( class_exists( 'WRR_Email' ) ) {
-			add_filter( 'woocommerce_email_classes', array( $this, 'add_email_class' ), 20 );
-		}
-	}
-
-	/**
 	 * Add email class to WooCommerce emails
+	 * This filter is called when WooCommerce initializes its email system
 	 *
 	 * @param array $emails Email classes.
 	 * @return array
 	 */
 	public function add_email_class( $emails ) {
-		// Double check classes exist
+		// Ensure WC_Email exists - if not, we can't extend it
+		if ( ! class_exists( 'WC_Email' ) ) {
+			return $emails;
+		}
+
+		// Load email class if not already loaded
 		if ( ! class_exists( 'WRR_Email' ) ) {
-			// Try to load it again
-			if ( class_exists( 'WC_Email' ) ) {
-				require_once WRR_PATH . 'includes/class-wrr-email.php';
-			}
-			
-			if ( ! class_exists( 'WRR_Email' ) ) {
-				return $emails;
-			}
+			require_once WRR_PATH . 'includes/class-wrr-email.php';
+		}
+
+		// If class still doesn't exist, something went wrong
+		if ( ! class_exists( 'WRR_Email' ) ) {
+			return $emails;
 		}
 
 		try {
