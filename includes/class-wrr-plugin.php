@@ -63,8 +63,8 @@ class WRR_Plugin {
 		// Initialize components
 		add_action( 'init', array( $this, 'init_components' ) );
 
-		// Register email class with WooCommerce (hook early to ensure it's registered)
-		add_filter( 'woocommerce_email_classes', array( $this, 'add_email_class' ), 20 );
+		// Register email class with WooCommerce after WooCommerce is loaded
+		add_action( 'woocommerce_loaded', array( $this, 'register_email_class' ) );
 	}
 
 	/**
@@ -85,26 +85,33 @@ class WRR_Plugin {
 	}
 
 	/**
+	 * Register email class with WooCommerce
+	 */
+	public function register_email_class() {
+		// Ensure classes exist before registering
+		if ( class_exists( 'WC_Email' ) && class_exists( 'WRR_Email' ) ) {
+			add_filter( 'woocommerce_email_classes', array( $this, 'add_email_class' ), 20 );
+		}
+	}
+
+	/**
 	 * Add email class to WooCommerce emails
 	 *
 	 * @param array $emails Email classes.
 	 * @return array
 	 */
 	public function add_email_class( $emails ) {
-		// Ensure classes exist
-		if ( ! class_exists( 'WC_Email' ) || ! class_exists( 'WRR_Email' ) ) {
+		// Double check classes exist
+		if ( ! class_exists( 'WRR_Email' ) ) {
 			return $emails;
 		}
 
 		// Get email instance
 		$email_instance = WRR_Email::instance();
 		
-		// WooCommerce uses the email ID (lowercase) as the key for sections
-		// Register with email ID as primary key
+		// WooCommerce uses the email ID as the key for sections
+		// Register with email ID as primary key (this is what WooCommerce expects)
 		$emails[ $email_instance->id ] = $email_instance;
-		
-		// Also register with class name for backward compatibility
-		$emails['WRR_Email'] = $email_instance;
 		
 		return $emails;
 	}
