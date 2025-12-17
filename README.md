@@ -1,10 +1,10 @@
-# Woo Re-Order Reminder
+# Easy WooCommerce Re-Order Reminder
 
 Automatically remind customers to re-order previously purchased products after a defined time period.
 
 ## Description
 
-Woo Re-Order Reminder is a WooCommerce extension that helps you increase repeat sales by automatically sending reminder emails to customers who haven't reordered products within a specified time frame.
+Easy WooCommerce Re-Order Reminder is a WooCommerce extension that helps you increase repeat sales by automatically sending reminder emails to customers who haven't reordered products within a specified time frame.
 
 ### Features
 
