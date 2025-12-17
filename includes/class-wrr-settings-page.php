@@ -135,13 +135,20 @@ class WRR_Settings_Page extends WC_Settings_Page {
 	}
 
 	/**
+	 * Constructor
+	 */
+	public function __construct() {
+		parent::__construct();
+		
+		// Handle test email AJAX
+		add_action( 'wp_ajax_wrr_send_test_email', array( $this, 'send_test_email_ajax' ) );
+	}
+
+	/**
 	 * Save settings
 	 */
 	public function save() {
 		parent::save();
-
-		// Handle test email AJAX
-		add_action( 'wp_ajax_wrr_send_test_email', array( $this, 'send_test_email_ajax' ) );
 	}
 
 	/**
