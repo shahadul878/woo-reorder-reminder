@@ -46,6 +46,7 @@ if ( ! class_exists( 'WRR_Email' ) ) {
 		$this->customer_email = true;
 		$this->template_html  = 'emails/reorder-reminder.php';
 		$this->template_plain = 'emails/plain/reorder-reminder.php';
+		$this->template_base  = WRR_PATH . 'templates/';
 		$this->placeholders   = array(
 			'{customer_name}' => '',
 			'{product_name}'  => '',
@@ -57,6 +58,9 @@ if ( ! class_exists( 'WRR_Email' ) ) {
 
 		// Set up preview data if in preview mode
 		add_filter( 'woocommerce_prepare_email_for_preview', array( $this, 'prepare_preview_data' ), 10, 1 );
+
+		// Help WooCommerce locate our template files
+		add_filter( 'woocommerce_locate_core_template', array( $this, 'locate_template' ), 10, 4 );
 	}
 
 	/**
@@ -152,6 +156,26 @@ if ( ! class_exists( 'WRR_Email' ) ) {
 			home_url()
 		);
 		return $link;
+	}
+
+	/**
+	 * Locate template file for WooCommerce
+	 *
+	 * @param string $core_file     Core template file path.
+	 * @param string $template       Template name.
+	 * @param string $template_base  Template base path.
+	 * @param string $email_id       Email ID.
+	 * @return string
+	 */
+	public function locate_template( $core_file, $template, $template_base, $email_id ) {
+		// Only handle our email templates
+		if ( $email_id === $this->id ) {
+			$plugin_template = WRR_PATH . 'templates/' . $template;
+			if ( file_exists( $plugin_template ) ) {
+				return $plugin_template;
+			}
+		}
+		return $core_file;
 	}
 
 	/**
