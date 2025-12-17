@@ -90,7 +90,7 @@ class WRR_Plugin {
 	public function register_email_class() {
 		// Ensure WC_Email class exists before registering
 		if ( class_exists( 'WC_Email' ) && class_exists( 'WRR_Email' ) ) {
-			add_filter( 'woocommerce_email_classes', array( $this, 'add_email_class' ) );
+			add_filter( 'woocommerce_email_classes', array( $this, 'add_email_class' ), 20 );
 		}
 	}
 
@@ -102,7 +102,9 @@ class WRR_Plugin {
 	 */
 	public function add_email_class( $emails ) {
 		if ( class_exists( 'WRR_Email' ) ) {
-			$emails['WRR_Email'] = WRR_Email::instance();
+			// Use the email ID as the key, not the class name
+			$email_instance = WRR_Email::instance();
+			$emails[ $email_instance->id ] = $email_instance;
 		}
 		return $emails;
 	}
