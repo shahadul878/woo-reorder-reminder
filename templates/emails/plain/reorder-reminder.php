@@ -16,14 +16,32 @@ defined( 'ABSPATH' ) || exit;
 
 echo "= " . esc_html( $email_heading ) . " =\n\n";
 
-$customer_name = $order->get_billing_first_name() ? $order->get_billing_first_name() : __( 'Customer', 'woo-reorder-reminder' );
-$product_name  = $product->get_name();
-$reorder_link  = add_query_arg( 'add-to-cart', $product->get_id(), wc_get_cart_url() );
+// Handle preview mode where order/product might be null
+$customer_name = $order && method_exists( $order, 'get_billing_first_name' ) 
+	? ( $order->get_billing_first_name() ? $order->get_billing_first_name() : __( 'Customer', 'woo-reorder-reminder' ) )
+	: __( 'Customer', 'woo-reorder-reminder' );
+
+$product_name = $product && method_exists( $product, 'get_name' )
+	? $product->get_name()
+	: __( 'Sample Product', 'woo-reorder-reminder' );
+
+$product_id = $product && method_exists( $product, 'get_id' )
+	? $product->get_id()
+	: 0;
+
+$reorder_link = $product_id > 0
+	? add_query_arg( 'add-to-cart', $product_id, wc_get_cart_url() )
+	: wc_get_cart_url();
+
+$customer_email = $order && method_exists( $order, 'get_billing_email' )
+	? $order->get_billing_email()
+	: 'customer@example.com';
+
 $unsubscribe_link = add_query_arg(
 	array(
 		'wrr_unsubscribe' => 1,
-		'email'            => rawurlencode( $order->get_billing_email() ),
-		'nonce'            => wp_create_nonce( 'wrr_unsubscribe_' . $order->get_billing_email() ),
+		'email'            => rawurlencode( $customer_email ),
+		'nonce'            => wp_create_nonce( 'wrr_unsubscribe_' . $customer_email ),
 	),
 	home_url()
 );

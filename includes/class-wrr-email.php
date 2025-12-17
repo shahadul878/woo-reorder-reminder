@@ -54,6 +54,9 @@ if ( ! class_exists( 'WRR_Email' ) ) {
 
 		// Call parent constructor
 		parent::__construct();
+
+		// Set up preview data if in preview mode
+		add_filter( 'woocommerce_prepare_email_for_preview', array( $this, 'prepare_preview_data' ), 10, 1 );
 	}
 
 	/**
@@ -152,11 +155,51 @@ if ( ! class_exists( 'WRR_Email' ) ) {
 	}
 
 	/**
+	 * Prepare preview data for email preview
+	 *
+	 * @param WC_Email $email Email object.
+	 * @return WC_Email
+	 */
+	public function prepare_preview_data( $email ) {
+		if ( $email === $this ) {
+			// Set dummy order if not set
+			if ( ! $this->object ) {
+				$orders = wc_get_orders( array(
+					'limit'   => 1,
+					'orderby' => 'date',
+					'order'   => 'DESC',
+					'status'  => array( 'completed', 'processing' ),
+				) );
+				if ( ! empty( $orders ) ) {
+					$this->object = $orders[0];
+				}
+			}
+
+			// Set dummy product if not set
+			if ( ! $this->product ) {
+				$products = wc_get_products( array(
+					'limit'   => 1,
+					'status'  => 'publish',
+				) );
+				if ( ! empty( $products ) ) {
+					$this->product = $products[0];
+				}
+			}
+		}
+		return $email;
+	}
+
+	/**
 	 * Get content html
 	 *
 	 * @return string
 	 */
 	public function get_content_html() {
+		// Ensure we have order and product for preview
+		if ( ! $this->object || ! $this->product ) {
+			$this->prepare_preview_data( $this );
+		}
+
 		return wc_get_template_html(
 			$this->template_html,
 			array(
