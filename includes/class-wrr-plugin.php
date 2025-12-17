@@ -88,8 +88,18 @@ class WRR_Plugin {
 	 * Register email class with WooCommerce
 	 */
 	public function register_email_class() {
-		// Ensure classes exist before registering
-		if ( class_exists( 'WC_Email' ) && class_exists( 'WRR_Email' ) ) {
+		// Ensure WC_Email exists before registering
+		if ( ! class_exists( 'WC_Email' ) ) {
+			return;
+		}
+
+		// Re-include email class if it wasn't loaded (in case WC_Email wasn't available when first included)
+		if ( ! class_exists( 'WRR_Email' ) ) {
+			require_once WRR_PATH . 'includes/class-wrr-email.php';
+		}
+
+		// Now register the filter - hook it directly here
+		if ( class_exists( 'WRR_Email' ) ) {
 			add_filter( 'woocommerce_email_classes', array( $this, 'add_email_class' ), 20 );
 		}
 	}
@@ -106,12 +116,21 @@ class WRR_Plugin {
 			return $emails;
 		}
 
-		// Get email instance
-		$email_instance = WRR_Email::instance();
-		
-		// WooCommerce uses the email ID as the key for sections
-		// Register with email ID as primary key (this is what WooCommerce expects)
-		$emails[ $email_instance->id ] = $email_instance;
+		try {
+			// Get email instance
+			$email_instance = WRR_Email::instance();
+			
+			if ( ! $email_instance || ! is_a( $email_instance, 'WC_Email' ) ) {
+				return $emails;
+			}
+			
+			// WooCommerce uses the email ID as the key for sections
+			// Register with email ID as primary key (this is what WooCommerce expects)
+			$emails[ $email_instance->id ] = $email_instance;
+		} catch ( Exception $e ) {
+			// Log error but don't break
+			error_log( 'WRR Email registration error: ' . $e->getMessage() );
+		}
 		
 		return $emails;
 	}
