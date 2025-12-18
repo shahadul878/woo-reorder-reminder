@@ -296,6 +296,7 @@ if (! class_exists('WRR_Email')) {
 				'title'       => __('Subject', 'woo-reorder-reminder'),
 				'type'        => 'text',
 				'desc_tip'    => true,
+				/* translators: %s: list of available placeholders */
 				'description' => sprintf(__('Available placeholders: %s', 'woo-reorder-reminder'), '{customer_name}, {product_name}, {reorder_link}'),
 				'placeholder' => $this->get_default_subject(),
 				'default'     => '',
@@ -304,6 +305,7 @@ if (! class_exists('WRR_Email')) {
 				'title'       => __('Email heading', 'woo-reorder-reminder'),
 				'type'        => 'text',
 				'desc_tip'    => true,
+				/* translators: %s: list of available placeholders */
 				'description' => sprintf(__('Available placeholders: %s', 'woo-reorder-reminder'), '{customer_name}, {product_name}, {reorder_link}'),
 				'placeholder' => $this->get_default_heading(),
 				'default'     => '',
