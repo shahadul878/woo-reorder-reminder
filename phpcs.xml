@@ -21,6 +21,9 @@
 		<!-- Allow underscores in class names (WordPress convention: WRR_Plugin) -->
 		<exclude name="Squiz.Classes.ValidClassName.NotCamelCaps"/>
 		
+		<!-- Allow underscores in method names (WordPress convention: get_settings, process_reminders) -->
+		<exclude name="PSR1.Methods.CamelCapsMethodName.NotCamelCaps"/>
+		
 		<!-- Allow no namespaces (common in WordPress plugins) -->
 		<exclude name="PSR1.Classes.ClassDeclaration.MissingNamespace"/>
 		

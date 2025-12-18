@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Logger Class
  *
  * @package WRR
  */
 
-defined( 'ABSPATH' ) || exit;
+defined('ABSPATH') || exit;
 
 /**
  * WRR_Logger Class
@@ -24,8 +25,9 @@ class WRR_Logger {
 	 *
 	 * @return WRR_Logger
 	 */
-	public static function instance() {
-		if ( is_null( self::$instance ) ) {
+	public static function instance()
+    {
+		if (is_null(self::$instance)) {
 			self::$instance = new self();
 		}
 		return self::$instance;
@@ -34,20 +36,22 @@ class WRR_Logger {
 	/**
 	 * Constructor
 	 */
-	private function __construct() {
+	private function __construct()
+    {
 		// Table creation is handled by plugin activation hook
 		// Also ensure table exists when logger is first used
-		add_action( 'init', array( __CLASS__, 'maybe_create_table' ), 5 );
+		add_action('init', array( __CLASS__, 'maybe_create_table' ), 5);
 	}
 
 	/**
 	 * Maybe create table if it doesn't exist
 	 */
-	public static function maybe_create_table() {
+	public static function maybe_create_table()
+    {
 		global $wpdb;
 		$table_name = $wpdb->prefix . 'wrr_logs';
-		
-		if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table_name ) ) !== $table_name ) {
+
+		if ($wpdb->get_var($wpdb->prepare('SHOW TABLES LIKE %s', $table_name)) !== $table_name) {
 			self::create_log_table();
 		}
 	}
@@ -55,7 +59,8 @@ class WRR_Logger {
 	/**
 	 * Create log table
 	 */
-	public static function create_log_table() {
+	public static function create_log_table()
+    {
 		global $wpdb;
 
 		$table_name = $wpdb->prefix . 'wrr_logs';
@@ -77,7 +82,7 @@ class WRR_Logger {
 		) $charset_collate;";
 
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-		dbDelta( $sql );
+		dbDelta($sql);
 	}
 
 	/**
@@ -89,7 +94,8 @@ class WRR_Logger {
 	 * @param string $status Status (pending, sent, failed).
 	 * @return int|false Log ID or false on failure
 	 */
-	public static function log( $order_id, $product_id, $email, $status = 'pending' ) {
+	public static function log($order_id, $product_id, $email, $status = 'pending')
+    {
 		global $wpdb;
 
 		$table_name = $wpdb->prefix . 'wrr_logs';
@@ -100,16 +106,16 @@ class WRR_Logger {
 		$result = $wpdb->insert(
 			$table_name,
 			array(
-				'order_id'   => absint( $order_id ),
-				'product_id' => absint( $product_id ),
-				'email'      => sanitize_email( $email ),
-				'status'     => sanitize_text_field( $status ),
-				'sent_at'    => current_time( 'mysql' ),
+				'order_id'   => absint($order_id),
+				'product_id' => absint($product_id),
+				'email'      => sanitize_email($email),
+				'status'     => sanitize_text_field($status),
+				'sent_at'    => current_time('mysql'),
 			),
 			array( '%d', '%d', '%s', '%s', '%s' )
 		);
 
-		if ( $result ) {
+		if ($result) {
 			return $wpdb->insert_id;
 		}
 
@@ -122,13 +128,14 @@ class WRR_Logger {
 	 * @param array $args Query arguments.
 	 * @return array
 	 */
-	public static function get_logs( $args = array() ) {
+	public static function get_logs($args = array())
+    {
 		global $wpdb;
 
 		$table_name = $wpdb->prefix . 'wrr_logs';
 
 		// Ensure table exists before querying
-		if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table_name ) ) !== $table_name ) {
+		if ($wpdb->get_var($wpdb->prepare('SHOW TABLES LIKE %s', $table_name)) !== $table_name) {
 			self::create_log_table();
 		}
 
@@ -139,21 +146,21 @@ class WRR_Logger {
 			'order'  => 'DESC',
 		);
 
-		$args = wp_parse_args( $args, $defaults );
+		$args = wp_parse_args($args, $defaults);
 
 		$where = '1=1';
 
-		if ( ! empty( $args['status'] ) ) {
-			$where .= $wpdb->prepare( ' AND status = %s', $args['status'] );
+		if (! empty($args['status'])) {
+			$where .= $wpdb->prepare(' AND status = %s', $args['status']);
 		}
 
-		$limit  = absint( $args['limit'] );
-		$offset = absint( $args['offset'] );
-		$order  = 'DESC' === strtoupper( $args['order'] ) ? 'DESC' : 'ASC';
+		$limit  = absint($args['limit']);
+		$offset = absint($args['offset']);
+		$order  = 'DESC' === strtoupper($args['order']) ? 'DESC' : 'ASC';
 
 		$query = "SELECT * FROM $table_name WHERE $where ORDER BY sent_at $order LIMIT $limit OFFSET $offset";
 
-		return $wpdb->get_results( $query, ARRAY_A );
+		return $wpdb->get_results($query, ARRAY_A);
 	}
 
 	/**
@@ -162,25 +169,26 @@ class WRR_Logger {
 	 * @param string $status Status filter.
 	 * @return int
 	 */
-	public static function get_log_count( $status = '' ) {
+	public static function get_log_count($status = '')
+    {
 		global $wpdb;
 
 		$table_name = $wpdb->prefix . 'wrr_logs';
 
 		// Ensure table exists before querying
-		if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table_name ) ) !== $table_name ) {
+		if ($wpdb->get_var($wpdb->prepare('SHOW TABLES LIKE %s', $table_name)) !== $table_name) {
 			self::create_log_table();
 		}
 
 		$where = '1=1';
 
-		if ( ! empty( $status ) ) {
-			$where .= $wpdb->prepare( ' AND status = %s', $status );
+		if (! empty($status)) {
+			$where .= $wpdb->prepare(' AND status = %s', $status);
 		}
 
 		$query = "SELECT COUNT(*) FROM $table_name WHERE $where";
 
-		return (int) $wpdb->get_var( $query );
+		return (int) $wpdb->get_var($query);
 	}
 
 	/**
@@ -190,15 +198,16 @@ class WRR_Logger {
 	 * @param string $status New status.
 	 * @return bool
 	 */
-	public static function update_status( $log_id, $status ) {
+	public static function update_status($log_id, $status)
+    {
 		global $wpdb;
 
 		$table_name = $wpdb->prefix . 'wrr_logs';
 
 		$result = $wpdb->update(
 			$table_name,
-			array( 'status' => sanitize_text_field( $status ) ),
-			array( 'id' => absint( $log_id ) ),
+			array( 'status' => sanitize_text_field($status) ),
+			array( 'id' => absint($log_id) ),
 			array( '%s' ),
 			array( '%d' )
 		);
@@ -206,4 +215,3 @@ class WRR_Logger {
 		return false !== $result;
 	}
 }
-
