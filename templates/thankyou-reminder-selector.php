@@ -57,8 +57,10 @@ if (! $has_reminder_products) {
 				<option value="<?php echo esc_attr($days); ?>" <?php selected($selected_days, $days); ?>>
 					<?php
 					if (1 === $days) {
+						/* translators: %d: number of days (singular) */
 						printf(esc_html__('%d day', 'woo-reorder-reminder'), $days);
 					} else {
+						/* translators: %d: number of days (plural) */
 						printf(esc_html__('%d days', 'woo-reorder-reminder'), $days);
 					}
 					?>
