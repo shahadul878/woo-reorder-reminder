@@ -346,6 +346,7 @@ if (! class_exists('WRR_Email')) {
 
             return true;
         }
-    } // End class WRR_Email
+    }
+}
 
-} // End if class_exists check
+// End if class_exists check
