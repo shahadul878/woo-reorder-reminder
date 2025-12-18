@@ -47,12 +47,15 @@ $unsubscribe_link = add_query_arg(
 	home_url()
 );
 
-/* translators: %s: customer name */
-printf(esc_html__('Hi %s,', 'woo-reorder-reminder'), esc_html($customer_name));
+printf(
+	/* translators: %s: customer name */
+	esc_html__('Hi %s,', 'woo-reorder-reminder'),
+	esc_html($customer_name)
+);
 echo "\n\n";
 
-/* translators: %s: product name */
 printf(
+	/* translators: %s: product name */
 	esc_html__('It\'s been a while since you last purchased %s. We wanted to remind you to reorder if you need it again.', 'woo-reorder-reminder'),
 	esc_html($product_name)
 );
