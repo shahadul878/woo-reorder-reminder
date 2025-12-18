@@ -90,7 +90,7 @@ class WRR_Settings_Page extends WC_Settings_Page {
 		?>
 		<tr valign="top">
 			<th scope="row" class="titledesc">
-				<label for="<?php echo esc_attr($value['id']); ?>"><?php echo esc_html($value['title']); ?></label>
+				<label for="<?php echo esc_attr(isset($value['id']) ? $value['id'] : ''); ?>"><?php echo esc_html(isset($value['title']) ? $value['title'] : ''); ?></label>
 			</th>
 			<td class="forminp">
 				<input
@@ -103,7 +103,9 @@ class WRR_Settings_Page extends WC_Settings_Page {
 				<button type="button" class="button" id="wrr_send_test_email">
 					<?php esc_html_e('Send Test Email', 'woo-reorder-reminder'); ?>
 				</button>
-				<p class="description"><?php echo esc_html($value['desc']); ?></p>
+				<?php if (isset($value['desc']) && !empty($value['desc'])) : ?>
+					<p class="description"><?php echo esc_html($value['desc']); ?></p>
+				<?php endif; ?>
 				<div id="wrr_test_email_result" style="margin-top: 10px;"></div>
 			</td>
 		</tr>
