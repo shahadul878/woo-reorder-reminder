@@ -48,14 +48,18 @@ $unsubscribe_link = add_query_arg(
 );
 ?>
 
-<p><?php printf(esc_html__('Hi %s,', 'woo-reorder-reminder'), esc_html($customer_name)); ?></p>
+<p><?php
+/* translators: %s: customer name */
+printf(esc_html__('Hi %s,', 'woo-reorder-reminder'), esc_html($customer_name));
+?></p>
 
 <p><?php
-	printf(
-		esc_html__('It\'s been a while since you last purchased %s. We wanted to remind you to reorder if you need it again.', 'woo-reorder-reminder'),
-		'<strong>' . esc_html($product_name) . '</strong>'
-	);
-    ?></p>
+/* translators: %s: product name */
+printf(
+	esc_html__('It\'s been a while since you last purchased %s. We wanted to remind you to reorder if you need it again.', 'woo-reorder-reminder'),
+	'<strong>' . esc_html($product_name) . '</strong>'
+);
+?></p>
 
 <p style="text-align: center; margin: 30px 0;">
 	<a href="<?php echo esc_url($reorder_link); ?>" style="background-color: #96588a; color: #ffffff; padding: 12px 30px; text-decoration: none; border-radius: 4px; display: inline-block;">
