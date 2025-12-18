@@ -104,10 +104,10 @@ $total_count   = WRR_Logger::get_log_count();
 				<div class="wrr-settings-section" style="background: #fff; padding: 20px; border: 1px solid #ccd0d4; border-radius: 4px; margin-bottom: 20px;">
 					<h2 style="margin-top: 0;"><?php esc_html_e('Unsubscribed Emails', 'woo-reorder-reminder'); ?></h2>
 					<?php if (! empty($unsubscribed)) : ?>
-						<?php
+						<p><?php
 						/* translators: %d: number of unsubscribed emails */
-						?>
-						<p><?php printf(esc_html__('Total unsubscribed: %d', 'woo-reorder-reminder'), count($unsubscribed)); ?></p>
+						printf(esc_html__('Total unsubscribed: %d', 'woo-reorder-reminder'), count($unsubscribed));
+						?></p>
 						<textarea readonly style="width: 100%; height: 150px; font-family: monospace; font-size: 12px;"><?php echo esc_textarea(implode("\n", $unsubscribed)); ?></textarea>
 						<p class="description"><?php esc_html_e('These email addresses will not receive reminder emails.', 'woo-reorder-reminder'); ?></p>
 					<?php else : ?>
