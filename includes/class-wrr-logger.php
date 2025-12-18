@@ -132,7 +132,9 @@ class WRR_Logger {
     {
 		global $wpdb;
 
-		$table_name = $wpdb->prefix . 'wrr_logs';
+		// Table name constant - safe, never user input
+		$table_suffix = 'wrr_logs';
+		$table_name = $wpdb->prefix . $table_suffix;
 
 		// Ensure table exists before querying
 		if ($wpdb->get_var($wpdb->prepare('SHOW TABLES LIKE %s', $table_name)) !== $table_name) {
@@ -154,20 +156,25 @@ class WRR_Logger {
 		$order  = in_array(strtoupper($args['order']), array('ASC', 'DESC'), true) ? strtoupper($args['order']) : 'DESC';
 		$status = ! empty($args['status']) ? sanitize_text_field($args['status']) : '';
 
-		// Table name is safe - from $wpdb->prefix (trusted) + constant string
-		// Validate table name format
-		$table_name_safe = $wpdb->_escape($table_name);
-
-		// Build WHERE clause with prepared statement
+		// Build query using prepare() for all user input
 		if (! empty($status)) {
-			$where_sql = $wpdb->prepare('status = %s', $status);
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
+			$query = $wpdb->prepare(
+				"SELECT * FROM `{$wpdb->prefix}wrr_logs` WHERE status = %s ORDER BY sent_at %s LIMIT %d OFFSET %d",
+				$status,
+				$order,
+				$limit,
+				$offset
+			);
 		} else {
-			$where_sql = '1=1';
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
+			$query = $wpdb->prepare(
+				"SELECT * FROM `{$wpdb->prefix}wrr_logs` WHERE 1=1 ORDER BY sent_at %s LIMIT %d OFFSET %d",
+				$order,
+				$limit,
+				$offset
+			);
 		}
-
-		// Build query - table name is validated, WHERE uses prepare, ORDER/LIMIT/OFFSET are validated integers/whitelisted strings
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is safe (from $wpdb->prefix), ORDER BY/LIMIT/OFFSET are validated
-		$query = "SELECT * FROM `{$table_name_safe}` WHERE {$where_sql} ORDER BY sent_at {$order} LIMIT {$limit} OFFSET {$offset}";
 
 		return $wpdb->get_results($query, ARRAY_A);
 	}
@@ -182,7 +189,9 @@ class WRR_Logger {
     {
 		global $wpdb;
 
-		$table_name = $wpdb->prefix . 'wrr_logs';
+		// Table name constant - safe, never user input
+		$table_suffix = 'wrr_logs';
+		$table_name = $wpdb->prefix . $table_suffix;
 
 		// Ensure table exists before querying
 		if ($wpdb->get_var($wpdb->prepare('SHOW TABLES LIKE %s', $table_name)) !== $table_name) {
@@ -192,20 +201,17 @@ class WRR_Logger {
 		// Sanitize status
 		$status = ! empty($status) ? sanitize_text_field($status) : '';
 
-		// Table name is safe - from $wpdb->prefix (trusted) + constant string
-		// Validate table name format
-		$table_name_safe = $wpdb->_escape($table_name);
-
-		// Build WHERE clause with prepared statement
+		// Build query using prepare() for user input
 		if (! empty($status)) {
-			$where_sql = $wpdb->prepare('status = %s', $status);
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
+			$query = $wpdb->prepare(
+				"SELECT COUNT(*) FROM `{$wpdb->prefix}wrr_logs` WHERE status = %s",
+				$status
+			);
 		} else {
-			$where_sql = '1=1';
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
+			$query = "SELECT COUNT(*) FROM `{$wpdb->prefix}wrr_logs` WHERE 1=1";
 		}
-
-		// Build query - table name is validated, WHERE uses prepare
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is safe (from $wpdb->prefix)
-		$query = "SELECT COUNT(*) FROM `{$table_name_safe}` WHERE {$where_sql}";
 
 		return (int) $wpdb->get_var($query);
 	}
