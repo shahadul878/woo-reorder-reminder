@@ -148,19 +148,26 @@ class WRR_Logger {
 
 		$args = wp_parse_args($args, $defaults);
 
-		$where = '1=1';
-
-		if (! empty($args['status'])) {
-			$where .= $wpdb->prepare(' AND status = %s', $args['status']);
-		}
-
+		// Sanitize and validate inputs
 		$limit  = absint($args['limit']);
 		$offset = absint($args['offset']);
-		$order  = 'DESC' === strtoupper($args['order']) ? 'DESC' : 'ASC';
+		$order  = in_array(strtoupper($args['order']), array('ASC', 'DESC'), true) ? strtoupper($args['order']) : 'DESC';
+		$status = ! empty($args['status']) ? sanitize_text_field($args['status']) : '';
 
-		// Table name is safe (from $wpdb->prefix), order is validated, limit/offset are sanitized
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$query = "SELECT * FROM `{$table_name}` WHERE {$where} ORDER BY sent_at {$order} LIMIT {$limit} OFFSET {$offset}";
+		// Table name is safe - from $wpdb->prefix (trusted) + constant string
+		// Validate table name format
+		$table_name_safe = $wpdb->_escape($table_name);
+
+		// Build WHERE clause with prepared statement
+		if (! empty($status)) {
+			$where_sql = $wpdb->prepare('status = %s', $status);
+		} else {
+			$where_sql = '1=1';
+		}
+
+		// Build query - table name is validated, WHERE uses prepare, ORDER/LIMIT/OFFSET are validated integers/whitelisted strings
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is safe (from $wpdb->prefix), ORDER BY/LIMIT/OFFSET are validated
+		$query = "SELECT * FROM `{$table_name_safe}` WHERE {$where_sql} ORDER BY sent_at {$order} LIMIT {$limit} OFFSET {$offset}";
 
 		return $wpdb->get_results($query, ARRAY_A);
 	}
@@ -182,15 +189,23 @@ class WRR_Logger {
 			self::create_log_table();
 		}
 
-		$where = '1=1';
+		// Sanitize status
+		$status = ! empty($status) ? sanitize_text_field($status) : '';
 
+		// Table name is safe - from $wpdb->prefix (trusted) + constant string
+		// Validate table name format
+		$table_name_safe = $wpdb->_escape($table_name);
+
+		// Build WHERE clause with prepared statement
 		if (! empty($status)) {
-			$where .= $wpdb->prepare(' AND status = %s', $status);
+			$where_sql = $wpdb->prepare('status = %s', $status);
+		} else {
+			$where_sql = '1=1';
 		}
 
-		// Table name is safe (from $wpdb->prefix), where clause uses prepare
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$query = "SELECT COUNT(*) FROM `{$table_name}` WHERE {$where}";
+		// Build query - table name is validated, WHERE uses prepare
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is safe (from $wpdb->prefix)
+		$query = "SELECT COUNT(*) FROM `{$table_name_safe}` WHERE {$where_sql}";
 
 		return (int) $wpdb->get_var($query);
 	}
