@@ -1,10 +1,10 @@
-# Easy WooCommerce Re-Order Reminder
+# Easy Re-Order Reminder for WooCommerce
 
 Automatically remind customers to re-order previously purchased products after a defined time period.
 
 ## Description
 
-Easy WooCommerce Re-Order Reminder is a WooCommerce extension that helps you increase repeat sales by automatically sending reminder emails to customers who haven't reordered products within a specified time frame.
+Easy Re-Order Reminder for WooCommerce is a WooCommerce extension that helps you increase repeat sales by automatically sending reminder emails to customers who haven't reordered products within a specified time frame.
 
 ### Features
 
@@ -18,7 +18,7 @@ Easy WooCommerce Re-Order Reminder is a WooCommerce extension that helps you inc
 
 ## Installation
 
-1. Upload the plugin files to the `/wp-content/plugins/woo-reorder-reminder` directory, or install the plugin through the WordPress plugins screen directly.
+1. Upload the plugin files to the `/wp-content/plugins/easy-reorder-reminder` directory, or install the plugin through the WordPress plugins screen directly.
 2. Activate the plugin through the 'Plugins' screen in WordPress.
 3. Go to WooCommerce → Settings → Re-Order Reminder to configure the plugin.
 
@@ -68,7 +68,7 @@ Customers can unsubscribe from reminders by clicking the unsubscribe link in any
 
 ## Support
 
-For support, feature requests, or bug reports, please visit the [GitHub repository](https://github.com/shahadul878/woo-reorder-reminder).
+For support, feature requests, or bug reports, please visit the [GitHub repository](https://github.com/shahadul878/easy-reorder-reminder).
 
 ## Changelog
 

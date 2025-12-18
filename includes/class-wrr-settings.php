@@ -69,13 +69,13 @@ class WRR_Settings {
 		$days   = get_post_meta($post->ID, '_wrr_reminder_days', true);
 
 		echo '<div class="options_group">';
-		echo '<h3>' . esc_html__('Re-Order Reminder', 'woo-reorder-reminder') . '</h3>';
+		echo '<h3>' . esc_html__('Re-Order Reminder', 'easy-reorder-reminder') . '</h3>';
 
 		woocommerce_wp_checkbox(
 			array(
 				'id'          => '_wrr_enable',
-				'label'       => __('Enable reminder', 'woo-reorder-reminder'),
-				'description' => __('Enable reorder reminders for this product', 'woo-reorder-reminder'),
+				'label'       => __('Enable reminder', 'easy-reorder-reminder'),
+				'description' => __('Enable reorder reminders for this product', 'easy-reorder-reminder'),
 				'value'       => $enable ? $enable : 'yes',
 			)
 		);
@@ -83,8 +83,8 @@ class WRR_Settings {
 		woocommerce_wp_text_input(
 			array(
 				'id'                => '_wrr_reminder_days',
-				'label'             => __('Reminder days', 'woo-reorder-reminder'),
-				'description'       => __('Days after order completion to send reminder. Leave empty to use global setting.', 'woo-reorder-reminder'),
+				'label'             => __('Reminder days', 'easy-reorder-reminder'),
+				'description'       => __('Days after order completion to send reminder. Leave empty to use global setting.', 'easy-reorder-reminder'),
 				'type'              => 'number',
 				'custom_attributes' => array(
 					'step' => '1',
@@ -132,7 +132,7 @@ class WRR_Settings {
 		$nonce = sanitize_text_field(wp_unslash($_GET['nonce']));
 
 		if (! wp_verify_nonce($nonce, 'wrr_unsubscribe_' . $email)) {
-			wp_die(esc_html__('Invalid security token.', 'woo-reorder-reminder'));
+			wp_die(esc_html__('Invalid security token.', 'easy-reorder-reminder'));
 		}
 
 		$this->unsubscribe_email($email);
@@ -153,7 +153,7 @@ class WRR_Settings {
 		$nonce = sanitize_text_field(wp_unslash($_GET['nonce']));
 
 		if (! wp_verify_nonce($nonce, 'wrr_unsubscribe_' . $email)) {
-			wp_die(esc_html__('Invalid security token.', 'woo-reorder-reminder'));
+			wp_die(esc_html__('Invalid security token.', 'easy-reorder-reminder'));
 		}
 
 		$this->unsubscribe_email($email);
@@ -162,7 +162,7 @@ class WRR_Settings {
 		add_action('wp_footer', function () {
 			?>
 			<div style="position: fixed; top: 20px; right: 20px; background: #4CAF50; color: white; padding: 15px 20px; border-radius: 5px; z-index: 9999;">
-				<?php esc_html_e('You have been unsubscribed from reorder reminders.', 'woo-reorder-reminder'); ?>
+				<?php esc_html_e('You have been unsubscribed from reorder reminders.', 'easy-reorder-reminder'); ?>
 			</div>
 			<?php
 		});
@@ -189,8 +189,8 @@ class WRR_Settings {
     {
 		// Main settings page
 		add_menu_page(
-			__('Re-Order Reminder', 'woo-reorder-reminder'),
-			__('Re-Order Reminder', 'woo-reorder-reminder'),
+			__('Re-Order Reminder', 'easy-reorder-reminder'),
+			__('Re-Order Reminder', 'easy-reorder-reminder'),
 			'manage_woocommerce',
 			'wrr-settings',
 			array( $this, 'render_settings_page' ),
@@ -201,8 +201,8 @@ class WRR_Settings {
 		// Settings submenu (same as main page)
 		add_submenu_page(
 			'wrr-settings',
-			__('Settings', 'woo-reorder-reminder'),
-			__('Settings', 'woo-reorder-reminder'),
+			__('Settings', 'easy-reorder-reminder'),
+			__('Settings', 'easy-reorder-reminder'),
 			'manage_woocommerce',
 			'wrr-settings',
 			array( $this, 'render_settings_page' )
@@ -211,8 +211,8 @@ class WRR_Settings {
 		// Logs submenu
 		add_submenu_page(
 			'wrr-settings',
-			__('Re-Order Reminder Logs', 'woo-reorder-reminder'),
-			__('Logs', 'woo-reorder-reminder'),
+			__('Re-Order Reminder Logs', 'easy-reorder-reminder'),
+			__('Logs', 'easy-reorder-reminder'),
 			'manage_woocommerce',
 			'wrr-logs',
 			array( $this, 'render_logs_page' )

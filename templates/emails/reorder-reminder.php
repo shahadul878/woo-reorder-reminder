@@ -19,12 +19,12 @@ do_action('woocommerce_email_header', $email_heading, $email); ?>
 <?php
 // Handle preview mode where order/product might be null
 $customer_name = $order && method_exists($order, 'get_billing_first_name')
-	? ( $order->get_billing_first_name() ? $order->get_billing_first_name() : __('Customer', 'woo-reorder-reminder') )
-	: __('Customer', 'woo-reorder-reminder');
+	? ( $order->get_billing_first_name() ? $order->get_billing_first_name() : __('Customer', 'easy-reorder-reminder') )
+	: __('Customer', 'easy-reorder-reminder');
 
 $product_name = $product && method_exists($product, 'get_name')
 	? $product->get_name()
-	: __('Sample Product', 'woo-reorder-reminder');
+	: __('Sample Product', 'easy-reorder-reminder');
 
 $product_id = $product && method_exists($product, 'get_id')
 	? $product->get_id()
@@ -51,7 +51,7 @@ $unsubscribe_link = add_query_arg(
 <p><?php
 printf(
 	/* translators: %s: customer name */
-	esc_html__('Hi %s,', 'woo-reorder-reminder'),
+	esc_html__('Hi %s,', 'easy-reorder-reminder'),
 	esc_html($customer_name)
 );
 ?></p>
@@ -59,14 +59,14 @@ printf(
 <p><?php
 printf(
 	/* translators: %s: product name */
-	esc_html__('It\'s been a while since you last purchased %s. We wanted to remind you to reorder if you need it again.', 'woo-reorder-reminder'),
+	esc_html__('It\'s been a while since you last purchased %s. We wanted to remind you to reorder if you need it again.', 'easy-reorder-reminder'),
 	'<strong>' . esc_html($product_name) . '</strong>'
 );
 ?></p>
 
 <p style="text-align: center; margin: 30px 0;">
 	<a href="<?php echo esc_url($reorder_link); ?>" style="background-color: #96588a; color: #ffffff; padding: 12px 30px; text-decoration: none; border-radius: 4px; display: inline-block;">
-		<?php esc_html_e('Re-Order Now', 'woo-reorder-reminder'); ?>
+		<?php esc_html_e('Re-Order Now', 'easy-reorder-reminder'); ?>
 	</a>
 </p>
 
@@ -75,8 +75,8 @@ printf(
 <?php endif; ?>
 
 <p style="font-size: 12px; color: #666;">
-	<?php esc_html_e('If you no longer wish to receive these reminders, you can', 'woo-reorder-reminder'); ?>
-	<a href="<?php echo esc_url($unsubscribe_link); ?>"><?php esc_html_e('unsubscribe here', 'woo-reorder-reminder'); ?></a>.
+	<?php esc_html_e('If you no longer wish to receive these reminders, you can', 'easy-reorder-reminder'); ?>
+	<a href="<?php echo esc_url($unsubscribe_link); ?>"><?php esc_html_e('unsubscribe here', 'easy-reorder-reminder'); ?></a>.
 </p>
 
 <?php

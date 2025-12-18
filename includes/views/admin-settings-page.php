@@ -24,7 +24,7 @@ if (isset($_POST['wrr_save_settings']) && check_admin_referer('wrr_settings', 'w
 	update_option('wrr_enable_reminder', $enable_reminder);
 	update_option('wrr_reminder_days', $reminder_days);
 
-	$message = __('Settings saved successfully!', 'woo-reorder-reminder');
+	$message = __('Settings saved successfully!', 'easy-reorder-reminder');
 	$message_type = 'success';
 }
 
@@ -50,29 +50,29 @@ $total_count   = WRR_Logger::get_log_count();
 				<?php wp_nonce_field('wrr_settings', 'wrr_settings_nonce'); ?>
 
 				<div class="wrr-settings-section" style="background: #fff; padding: 20px; border: 1px solid #ccd0d4; border-radius: 4px; margin-bottom: 20px;">
-					<h2 style="margin-top: 0;"><?php esc_html_e('General Settings', 'woo-reorder-reminder'); ?></h2>
+					<h2 style="margin-top: 0;"><?php esc_html_e('General Settings', 'easy-reorder-reminder'); ?></h2>
 
 					<table class="form-table">
 						<tbody>
 							<tr>
 								<th scope="row">
-									<label for="wrr_enable_reminder"><?php esc_html_e('Enable Reminder System', 'woo-reorder-reminder'); ?></label>
+									<label for="wrr_enable_reminder"><?php esc_html_e('Enable Reminder System', 'easy-reorder-reminder'); ?></label>
 								</th>
 								<td>
 									<label>
 										<input type="checkbox" name="wrr_enable_reminder" id="wrr_enable_reminder" value="yes" <?php checked($enable_reminder, 'yes'); ?> />
-										<?php esc_html_e('Enable automatic reorder reminders', 'woo-reorder-reminder'); ?>
+										<?php esc_html_e('Enable automatic reorder reminders', 'easy-reorder-reminder'); ?>
 									</label>
-									<p class="description"><?php esc_html_e('Uncheck to disable all reminder emails globally.', 'woo-reorder-reminder'); ?></p>
+									<p class="description"><?php esc_html_e('Uncheck to disable all reminder emails globally.', 'easy-reorder-reminder'); ?></p>
 								</td>
 							</tr>
 							<tr>
 								<th scope="row">
-									<label for="wrr_reminder_days"><?php esc_html_e('Default Reminder Days', 'woo-reorder-reminder'); ?></label>
+									<label for="wrr_reminder_days"><?php esc_html_e('Default Reminder Days', 'easy-reorder-reminder'); ?></label>
 								</th>
 								<td>
 									<input type="number" name="wrr_reminder_days" id="wrr_reminder_days" value="<?php echo esc_attr($reminder_days); ?>" min="1" step="1" class="small-text" />
-									<p class="description"><?php esc_html_e('Number of days after order completion to send reminder. This can be overridden per product or by customer preference.', 'woo-reorder-reminder'); ?></p>
+									<p class="description"><?php esc_html_e('Number of days after order completion to send reminder. This can be overridden per product or by customer preference.', 'easy-reorder-reminder'); ?></p>
 								</td>
 							</tr>
 						</tbody>
@@ -80,91 +80,91 @@ $total_count   = WRR_Logger::get_log_count();
 				</div>
 
 				<div class="wrr-settings-section" style="background: #fff; padding: 20px; border: 1px solid #ccd0d4; border-radius: 4px; margin-bottom: 20px;">
-					<h2 style="margin-top: 0;"><?php esc_html_e('Email Settings', 'woo-reorder-reminder'); ?></h2>
+					<h2 style="margin-top: 0;"><?php esc_html_e('Email Settings', 'easy-reorder-reminder'); ?></h2>
 					<p>
-						<?php esc_html_e('Email templates and settings are managed in', 'woo-reorder-reminder'); ?>
+						<?php esc_html_e('Email templates and settings are managed in', 'easy-reorder-reminder'); ?>
 						<a href="<?php echo esc_url(admin_url('admin.php?page=wc-settings&tab=email&section=wrr_reorder_reminder')); ?>">
-							<?php esc_html_e('WooCommerce → Settings → Emails → Re-Order Reminder', 'woo-reorder-reminder'); ?>
+							<?php esc_html_e('WooCommerce → Settings → Emails → Re-Order Reminder', 'easy-reorder-reminder'); ?>
 						</a>
 					</p>
 					<p>
 						<button type="button" class="button" id="wrr_send_test_email_btn">
-							<?php esc_html_e('Send Test Email', 'woo-reorder-reminder'); ?>
+							<?php esc_html_e('Send Test Email', 'easy-reorder-reminder'); ?>
 						</button>
 						<span id="wrr_test_email_result" style="margin-left: 10px;"></span>
 					</p>
 					<div id="wrr_test_email_form" style="margin-top: 15px; display: none;">
-						<input type="email" id="wrr_test_email_address" placeholder="<?php esc_attr_e('Enter email address', 'woo-reorder-reminder'); ?>" style="width: 300px; padding: 5px;" />
+						<input type="email" id="wrr_test_email_address" placeholder="<?php esc_attr_e('Enter email address', 'easy-reorder-reminder'); ?>" style="width: 300px; padding: 5px;" />
 						<button type="button" class="button button-primary" id="wrr_send_test_email_submit">
-							<?php esc_html_e('Send', 'woo-reorder-reminder'); ?>
+							<?php esc_html_e('Send', 'easy-reorder-reminder'); ?>
 						</button>
 					</div>
 				</div>
 
 				<div class="wrr-settings-section" style="background: #fff; padding: 20px; border: 1px solid #ccd0d4; border-radius: 4px; margin-bottom: 20px;">
-					<h2 style="margin-top: 0;"><?php esc_html_e('Unsubscribed Emails', 'woo-reorder-reminder'); ?></h2>
+					<h2 style="margin-top: 0;"><?php esc_html_e('Unsubscribed Emails', 'easy-reorder-reminder'); ?></h2>
 					<?php if (! empty($unsubscribed)) : ?>
 						<p><?php
 						/* translators: %d: number of unsubscribed emails */
-						printf(esc_html__('Total unsubscribed: %d', 'woo-reorder-reminder'), count($unsubscribed));
+						printf(esc_html__('Total unsubscribed: %d', 'easy-reorder-reminder'), count($unsubscribed));
 						?></p>
 						<textarea readonly style="width: 100%; height: 150px; font-family: monospace; font-size: 12px;"><?php echo esc_textarea(implode("\n", $unsubscribed)); ?></textarea>
-						<p class="description"><?php esc_html_e('These email addresses will not receive reminder emails.', 'woo-reorder-reminder'); ?></p>
+						<p class="description"><?php esc_html_e('These email addresses will not receive reminder emails.', 'easy-reorder-reminder'); ?></p>
 					<?php else : ?>
-						<p><?php esc_html_e('No unsubscribed emails.', 'woo-reorder-reminder'); ?></p>
+						<p><?php esc_html_e('No unsubscribed emails.', 'easy-reorder-reminder'); ?></p>
 					<?php endif; ?>
 				</div>
 
 				<p class="submit">
-					<?php submit_button(__('Save Settings', 'woo-reorder-reminder'), 'primary', 'wrr_save_settings', false); ?>
+					<?php submit_button(__('Save Settings', 'easy-reorder-reminder'), 'primary', 'wrr_save_settings', false); ?>
 				</p>
 			</form>
 		</div>
 
 		<div class="wrr-settings-sidebar" style="flex: 1;">
 			<div class="wrr-stats-box" style="background: #fff; padding: 20px; border: 1px solid #ccd0d4; border-radius: 4px; margin-bottom: 20px;">
-				<h3 style="margin-top: 0;"><?php esc_html_e('Statistics', 'woo-reorder-reminder'); ?></h3>
+				<h3 style="margin-top: 0;"><?php esc_html_e('Statistics', 'easy-reorder-reminder'); ?></h3>
 				<ul style="list-style: none; padding: 0; margin: 0;">
 					<li style="padding: 10px 0; border-bottom: 1px solid #eee;">
-						<strong><?php esc_html_e('Total Logs:', 'woo-reorder-reminder'); ?></strong>
+						<strong><?php esc_html_e('Total Logs:', 'easy-reorder-reminder'); ?></strong>
 						<span style="float: right;"><?php echo esc_html($total_count); ?></span>
 					</li>
 					<li style="padding: 10px 0; border-bottom: 1px solid #eee;">
-						<strong style="color: #46b450;"><?php esc_html_e('Sent:', 'woo-reorder-reminder'); ?></strong>
+						<strong style="color: #46b450;"><?php esc_html_e('Sent:', 'easy-reorder-reminder'); ?></strong>
 						<span style="float: right;"><?php echo esc_html($sent_count); ?></span>
 					</li>
 					<li style="padding: 10px 0; border-bottom: 1px solid #eee;">
-						<strong style="color: #f0b849;"><?php esc_html_e('Pending:', 'woo-reorder-reminder'); ?></strong>
+						<strong style="color: #f0b849;"><?php esc_html_e('Pending:', 'easy-reorder-reminder'); ?></strong>
 						<span style="float: right;"><?php echo esc_html($pending_count); ?></span>
 					</li>
 					<li style="padding: 10px 0;">
-						<strong style="color: #dc3232;"><?php esc_html_e('Failed:', 'woo-reorder-reminder'); ?></strong>
+						<strong style="color: #dc3232;"><?php esc_html_e('Failed:', 'easy-reorder-reminder'); ?></strong>
 						<span style="float: right;"><?php echo esc_html($failed_count); ?></span>
 					</li>
 				</ul>
 				<p style="margin-top: 15px;">
 					<a href="<?php echo esc_url(admin_url('admin.php?page=wrr-logs')); ?>" class="button">
-						<?php esc_html_e('View All Logs', 'woo-reorder-reminder'); ?>
+						<?php esc_html_e('View All Logs', 'easy-reorder-reminder'); ?>
 					</a>
 				</p>
 			</div>
 
 			<div class="wrr-info-box" style="background: #fff; padding: 20px; border: 1px solid #ccd0d4; border-radius: 4px;">
-				<h3 style="margin-top: 0;"><?php esc_html_e('Quick Links', 'woo-reorder-reminder'); ?></h3>
+				<h3 style="margin-top: 0;"><?php esc_html_e('Quick Links', 'easy-reorder-reminder'); ?></h3>
 				<ul style="list-style: disc; padding-left: 20px;">
 					<li>
 						<a href="<?php echo esc_url(admin_url('admin.php?page=wc-settings&tab=wrr_settings')); ?>">
-							<?php esc_html_e('WooCommerce Settings', 'woo-reorder-reminder'); ?>
+							<?php esc_html_e('WooCommerce Settings', 'easy-reorder-reminder'); ?>
 						</a>
 					</li>
 					<li>
 						<a href="<?php echo esc_url(admin_url('admin.php?page=wrr-logs')); ?>">
-							<?php esc_html_e('View Logs', 'woo-reorder-reminder'); ?>
+							<?php esc_html_e('View Logs', 'easy-reorder-reminder'); ?>
 						</a>
 					</li>
 					<li>
 						<a href="<?php echo esc_url(admin_url('admin.php?page=wc-settings&tab=email&section=wrr_reorder_reminder')); ?>">
-							<?php esc_html_e('Email Template Settings', 'woo-reorder-reminder'); ?>
+							<?php esc_html_e('Email Template Settings', 'easy-reorder-reminder'); ?>
 						</a>
 					</li>
 				</ul>
@@ -183,7 +183,7 @@ jQuery(document).ready(function($) {
 	$('#wrr_send_test_email_submit').on('click', function() {
 		var email = $('#wrr_test_email_address').val();
 		if (!email) {
-			alert('<?php esc_html_e('Please enter an email address', 'woo-reorder-reminder'); ?>');
+			alert('<?php esc_html_e('Please enter an email address', 'easy-reorder-reminder'); ?>');
 			return;
 		}
 
@@ -191,7 +191,7 @@ jQuery(document).ready(function($) {
 		var $result = $('#wrr_test_email_result');
 		var originalText = $button.text();
 
-		$button.prop('disabled', true).text('<?php esc_html_e('Sending...', 'woo-reorder-reminder'); ?>');
+		$button.prop('disabled', true).text('<?php esc_html_e('Sending...', 'easy-reorder-reminder'); ?>');
 		$result.html('');
 
 		$.ajax({
@@ -204,13 +204,13 @@ jQuery(document).ready(function($) {
 			},
 			success: function(response) {
 				if (response.success) {
-					$result.html('<span style="color: #46b450;"><?php esc_html_e('✓ Test email sent successfully!', 'woo-reorder-reminder'); ?></span>');
+					$result.html('<span style="color: #46b450;"><?php esc_html_e('✓ Test email sent successfully!', 'easy-reorder-reminder'); ?></span>');
 				} else {
-					$result.html('<span style="color: #dc3232;">' + (response.data || '<?php esc_html_e('Error sending email', 'woo-reorder-reminder'); ?>') + '</span>');
+					$result.html('<span style="color: #dc3232;">' + (response.data || '<?php esc_html_e('Error sending email', 'easy-reorder-reminder'); ?>') + '</span>');
 				}
 			},
 			error: function() {
-				$result.html('<span style="color: #dc3232;"><?php esc_html_e('Error sending email', 'woo-reorder-reminder'); ?></span>');
+				$result.html('<span style="color: #dc3232;"><?php esc_html_e('Error sending email', 'easy-reorder-reminder'); ?></span>');
 			},
 			complete: function() {
 				$button.prop('disabled', false).text(originalText);

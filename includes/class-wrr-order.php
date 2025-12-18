@@ -124,12 +124,12 @@ class WRR_Order {
 		$nonce    = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
 
 		if (! wp_verify_nonce($nonce, 'wrr_save_reminder_days_' . $order_id)) {
-			wp_send_json_error(__('Invalid security token.', 'woo-reorder-reminder'));
+			wp_send_json_error(__('Invalid security token.', 'easy-reorder-reminder'));
 		}
 
 		$order = wc_get_order($order_id);
 		if (! $order) {
-			wp_send_json_error(__('Order not found.', 'woo-reorder-reminder'));
+			wp_send_json_error(__('Order not found.', 'easy-reorder-reminder'));
 		}
 
 		// Verify user has access to this order
@@ -146,18 +146,18 @@ class WRR_Order {
 		}
 
 		if (! $has_access) {
-			wp_send_json_error(__('Permission denied.', 'woo-reorder-reminder'));
+			wp_send_json_error(__('Permission denied.', 'easy-reorder-reminder'));
 		}
 
 		$reminder_days = isset($_POST['reminder_days']) ? absint($_POST['reminder_days']) : 0;
 
 		if ($reminder_days < 1) {
-			wp_send_json_error(__('Invalid reminder days.', 'woo-reorder-reminder'));
+			wp_send_json_error(__('Invalid reminder days.', 'easy-reorder-reminder'));
 		}
 
 		// Save customer preference
 		update_post_meta($order_id, '_wrr_customer_reminder_days', $reminder_days);
 
-		wp_send_json_success(__('Reminder preference saved successfully.', 'woo-reorder-reminder'));
+		wp_send_json_success(__('Reminder preference saved successfully.', 'easy-reorder-reminder'));
 	}
 }

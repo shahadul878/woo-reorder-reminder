@@ -1,4 +1,4 @@
-=== Easy WooCommerce Re-Order Reminder ===
+=== Easy Re-Order Reminder for WooCommerce ===
 Contributors: shahadul878
 Tags: woocommerce, email, reminders, reorder, customer retention, marketing automation
 Requires at least: 5.8
@@ -10,11 +10,11 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 WC requires at least: 5.0
 WC tested up to: 8.0
 
-Automatically remind customers to reorder products after a defined time period. Increase repeat sales with automated email reminders.
+Automatically remind customers to reorder products after a defined time period. Increase repeat sales with automated email reminders. Requires WooCommerce.
 
 == Description ==
 
-Easy WooCommerce Re-Order Reminder helps you increase repeat sales by automatically sending reminder emails to customers who haven't reordered products within a specified time frame. Perfect for subscription products, consumables, and any items customers might need to repurchase.
+Easy Re-Order Reminder for WooCommerce helps you increase repeat sales by automatically sending reminder emails to customers who haven't reordered products within a specified time frame. Perfect for subscription products, consumables, and any items customers might need to repurchase.
 
 = Key Features =
 
@@ -62,7 +62,7 @@ For each product, you can:
 
 **Option A: Via WordPress Admin**
 1. Go to WordPress Admin > Plugins > Add New
-2. Search for "Easy WooCommerce Re-Order Reminder"
+2. Search for "Easy Re-Order Reminder for WooCommerce"
 3. Click "Install Now"
 4. Click "Activate"
 
@@ -78,7 +78,7 @@ For each product, you can:
 1. Extract the plugin folder
 2. Upload to `/wp-content/plugins/`
 3. Go to WordPress Admin > Plugins
-4. Find "Easy WooCommerce Re-Order Reminder" and click "Activate"
+4. Find "Easy Re-Order Reminder for WooCommerce" and click "Activate"
 
 **Verify Installation**
 After activation, you should see:
@@ -154,12 +154,12 @@ Yes! You can set custom reminder days for each product individually, or use the 
 == Upgrade Notice ==
 
 = 1.0.0 =
-Initial release of Easy WooCommerce Re-Order Reminder. Activate the plugin and configure your settings to start sending reminder emails to customers.
+Initial release of Easy Re-Order Reminder for WooCommerce. Activate the plugin and configure your settings to start sending reminder emails to customers.
 
 == Support ==
 
 For support, feature requests, and bug reports, please visit:
-https://github.com/shahadul878/woo-reorder-reminder
+https://github.com/shahadul878/easy-reorder-reminder
 
 == Credits ==
 

@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Plugin Name: Easy WooCommerce Re-Order Reminder
- * Plugin URI: https://github.com/shahadul878/woo-reorder-reminder
+ * Plugin Name: Easy Re-Order Reminder for WooCommerce
+ * Plugin URI: https://github.com/shahadul878/easy-reorder-reminder
  * Description: Automatically remind customers to reorder products after a defined time period.
  * Version: 1.0.0
  * Author: H M Shahadul Islam
  * Author URI: https://github.com/shahadul878
- * Text Domain: woo-reorder-reminder
+ * Text Domain: easy-reorder-reminder
  * Domain Path: /languages
  * Requires at least: 5.8
  * Requires PHP: 7.4
@@ -31,7 +31,7 @@ if (! in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', ge
 	add_action('admin_notices', function () {
 		?>
 		<div class="notice notice-error">
-			<p><?php esc_html_e('Easy WooCommerce Re-Order Reminder requires WooCommerce to be installed and active.', 'woo-reorder-reminder'); ?></p>
+			<p><?php esc_html_e('Easy Re-Order Reminder for WooCommerce requires WooCommerce to be installed and active.', 'easy-reorder-reminder'); ?></p>
 		</div>
 		<?php
 	});

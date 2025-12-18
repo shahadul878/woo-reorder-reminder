@@ -23,7 +23,7 @@ class WRR_Settings_Page extends WC_Settings_Page {
 	public function __construct()
     {
 		$this->id    = 'wrr_settings';
-		$this->label = __('Re-Order Reminder', 'woo-reorder-reminder');
+		$this->label = __('Re-Order Reminder', 'easy-reorder-reminder');
 
 		parent::__construct();
 
@@ -40,22 +40,22 @@ class WRR_Settings_Page extends WC_Settings_Page {
     {
 		$settings = array(
 			array(
-				'title' => __('Re-Order Reminder Settings', 'woo-reorder-reminder'),
+				'title' => __('Re-Order Reminder Settings', 'easy-reorder-reminder'),
 				'type'  => 'title',
-				'desc'  => __('Configure automatic reorder reminders for your customers.', 'woo-reorder-reminder'),
+				'desc'  => __('Configure automatic reorder reminders for your customers.', 'easy-reorder-reminder'),
 				'id'    => 'wrr_settings_title',
 			),
 			array(
-				'title'    => __('Enable Reminder', 'woo-reorder-reminder'),
-				'desc'     => __('Enable reorder reminders', 'woo-reorder-reminder'),
+				'title'    => __('Enable Reminder', 'easy-reorder-reminder'),
+				'desc'     => __('Enable reorder reminders', 'easy-reorder-reminder'),
 				'id'       => 'wrr_enable_reminder',
 				'default'  => 'yes',
 				'type'     => 'checkbox',
-				'desc_tip' => __('Uncheck to disable all reorder reminders.', 'woo-reorder-reminder'),
+				'desc_tip' => __('Uncheck to disable all reorder reminders.', 'easy-reorder-reminder'),
 			),
 			array(
-				'title'             => __('Reminder Days', 'woo-reorder-reminder'),
-				'desc'              => __('Number of days after order completion to send reminder', 'woo-reorder-reminder'),
+				'title'             => __('Reminder Days', 'easy-reorder-reminder'),
+				'desc'              => __('Number of days after order completion to send reminder', 'easy-reorder-reminder'),
 				'id'                => 'wrr_reminder_days',
 				'type'              => 'number',
 				'custom_attributes' => array(
@@ -63,11 +63,11 @@ class WRR_Settings_Page extends WC_Settings_Page {
 					'min'  => '1',
 				),
 				'default'           => '30',
-				'desc_tip'          => __('This can be overridden per product.', 'woo-reorder-reminder'),
+				'desc_tip'          => __('This can be overridden per product.', 'easy-reorder-reminder'),
 			),
 			array(
-				'title'    => __('Test Reminder Email', 'woo-reorder-reminder'),
-				'desc'     => __('Send a test email to verify email settings', 'woo-reorder-reminder'),
+				'title'    => __('Test Reminder Email', 'easy-reorder-reminder'),
+				'desc'     => __('Send a test email to verify email settings', 'easy-reorder-reminder'),
 				'id'       => 'wrr_test_email',
 				'type'     => 'wrr_test_email',
 			),
@@ -97,11 +97,11 @@ class WRR_Settings_Page extends WC_Settings_Page {
 					type="email"
 					id="wrr_test_email_address"
 					name="wrr_test_email_address"
-					placeholder="<?php esc_attr_e('Enter email address', 'woo-reorder-reminder'); ?>"
+					placeholder="<?php esc_attr_e('Enter email address', 'easy-reorder-reminder'); ?>"
 					style="width: 300px;"
 				/>
 				<button type="button" class="button" id="wrr_send_test_email">
-					<?php esc_html_e('Send Test Email', 'woo-reorder-reminder'); ?>
+					<?php esc_html_e('Send Test Email', 'easy-reorder-reminder'); ?>
 				</button>
 				<?php if (isset($value['desc']) && !empty($value['desc'])) : ?>
 					<p class="description"><?php echo esc_html($value['desc']); ?></p>
@@ -114,10 +114,10 @@ class WRR_Settings_Page extends WC_Settings_Page {
 			$('#wrr_send_test_email').on('click', function() {
 				var email = $('#wrr_test_email_address').val();
 				if (!email) {
-					alert('<?php esc_html_e('Please enter an email address', 'woo-reorder-reminder'); ?>');
+					alert('<?php esc_html_e('Please enter an email address', 'easy-reorder-reminder'); ?>');
 					return;
 				}
-				$('#wrr_test_email_result').html('<span style="color: #666;"><?php esc_html_e('Sending...', 'woo-reorder-reminder'); ?></span>');
+				$('#wrr_test_email_result').html('<span style="color: #666;"><?php esc_html_e('Sending...', 'easy-reorder-reminder'); ?></span>');
 				$.ajax({
 					url: ajaxurl,
 					type: 'POST',
@@ -128,13 +128,13 @@ class WRR_Settings_Page extends WC_Settings_Page {
 					},
 					success: function(response) {
 						if (response.success) {
-							$('#wrr_test_email_result').html('<span style="color: #46b450;"><?php esc_html_e('Test email sent successfully!', 'woo-reorder-reminder'); ?></span>');
+							$('#wrr_test_email_result').html('<span style="color: #46b450;"><?php esc_html_e('Test email sent successfully!', 'easy-reorder-reminder'); ?></span>');
 						} else {
-							$('#wrr_test_email_result').html('<span style="color: #dc3232;">' + (response.data || '<?php esc_html_e('Error sending email', 'woo-reorder-reminder'); ?>') + '</span>');
+							$('#wrr_test_email_result').html('<span style="color: #dc3232;">' + (response.data || '<?php esc_html_e('Error sending email', 'easy-reorder-reminder'); ?>') + '</span>');
 						}
 					},
 					error: function() {
-						$('#wrr_test_email_result').html('<span style="color: #dc3232;"><?php esc_html_e('Error sending email', 'woo-reorder-reminder'); ?></span>');
+						$('#wrr_test_email_result').html('<span style="color: #dc3232;"><?php esc_html_e('Error sending email', 'easy-reorder-reminder'); ?></span>');
 					}
 				});
 			});
@@ -159,30 +159,30 @@ class WRR_Settings_Page extends WC_Settings_Page {
 		check_ajax_referer('wrr_test_email', 'nonce');
 
 		if (! current_user_can('manage_woocommerce')) {
-			wp_send_json_error(__('Permission denied', 'woo-reorder-reminder'));
+			wp_send_json_error(__('Permission denied', 'easy-reorder-reminder'));
 		}
 
 		$email = sanitize_email(wp_unslash($_POST['email']));
 		if (! $email) {
-			wp_send_json_error(__('Invalid email address', 'woo-reorder-reminder'));
+			wp_send_json_error(__('Invalid email address', 'easy-reorder-reminder'));
 		}
 
 		// Create a mock order for testing
 		$test_order = new WC_Order();
 		$test_order->set_billing_email($email);
-		$test_order->set_billing_first_name(__('Test', 'woo-reorder-reminder'));
+		$test_order->set_billing_first_name(__('Test', 'easy-reorder-reminder'));
 
 		// Get first product
 		$products = wc_get_products(array( 'limit' => 1 ));
 		if (empty($products)) {
-			wp_send_json_error(__('No products found. Please create at least one product first.', 'woo-reorder-reminder'));
+			wp_send_json_error(__('No products found. Please create at least one product first.', 'easy-reorder-reminder'));
 		}
 
 		$product = $products[0];
 		$email_class = WRR_Email::instance();
 		$email_class->trigger($test_order, $product->get_id());
 
-		wp_send_json_success(__('Test email sent successfully!', 'woo-reorder-reminder'));
+		wp_send_json_success(__('Test email sent successfully!', 'easy-reorder-reminder'));
 	}
 }
 

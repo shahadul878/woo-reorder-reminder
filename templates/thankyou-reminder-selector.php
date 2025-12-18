@@ -45,8 +45,8 @@ if (! $has_reminder_products) {
 ?>
 
 <div class="wrr-thankyou-reminder-selector" style="margin: 30px 0; padding: 20px; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 5px;">
-	<h3 style="margin-top: 0;"><?php esc_html_e('When would you like a reminder to reorder?', 'woo-reorder-reminder'); ?></h3>
-	<p style="margin-bottom: 15px;"><?php esc_html_e('Choose when you\'d like to receive a reminder email to reorder these products:', 'woo-reorder-reminder'); ?></p>
+	<h3 style="margin-top: 0;"><?php esc_html_e('When would you like a reminder to reorder?', 'easy-reorder-reminder'); ?></h3>
+	<p style="margin-bottom: 15px;"><?php esc_html_e('Choose when you\'d like to receive a reminder email to reorder these products:', 'easy-reorder-reminder'); ?></p>
 	
 	<form id="wrr-reminder-days-form" method="post" style="margin-bottom: 0;">
 		<input type="hidden" name="wrr_order_id" value="<?php echo esc_attr($order->get_id()); ?>" />
@@ -58,10 +58,10 @@ if (! $has_reminder_products) {
 					<?php
 					if (1 === $days) {
 						/* translators: %d: number of days (singular) */
-						printf(esc_html__('%d day', 'woo-reorder-reminder'), $days);
+						printf(esc_html__('%d day', 'easy-reorder-reminder'), $days);
 					} else {
 						/* translators: %d: number of days (plural) */
-						printf(esc_html__('%d days', 'woo-reorder-reminder'), $days);
+						printf(esc_html__('%d days', 'easy-reorder-reminder'), $days);
 					}
 					?>
 				</option>
@@ -69,7 +69,7 @@ if (! $has_reminder_products) {
 		</select>
 		
 		<button type="submit" class="button" style="margin-left: 10px; padding: 8px 20px;">
-			<?php esc_html_e('Save Preference', 'woo-reorder-reminder'); ?>
+			<?php esc_html_e('Save Preference', 'easy-reorder-reminder'); ?>
 		</button>
 	</form>
 	
@@ -86,7 +86,7 @@ jQuery(document).ready(function($) {
 		var button = form.find('button[type="submit"]');
 		var originalText = button.text();
 		
-		button.prop('disabled', true).text('<?php echo esc_js(__('Saving...', 'woo-reorder-reminder')); ?>');
+		button.prop('disabled', true).text('<?php echo esc_js(__('Saving...', 'easy-reorder-reminder')); ?>');
 		messageDiv.hide();
 		
 		$.ajax({
@@ -101,17 +101,17 @@ jQuery(document).ready(function($) {
 			},
 			success: function(response) {
 				if (response.success) {
-					messageDiv.html('<span style="color: #46b450;"><?php echo esc_js(__('✓ Preference saved successfully!', 'woo-reorder-reminder')); ?></span>').show();
+					messageDiv.html('<span style="color: #46b450;"><?php echo esc_js(__('✓ Preference saved successfully!', 'easy-reorder-reminder')); ?></span>').show();
 					setTimeout(function() {
 						messageDiv.fadeOut();
 					}, 3000);
 				} else {
-					messageDiv.html('<span style="color: #dc3232;">' + (response.data || '<?php echo esc_js(__('Error saving preference', 'woo-reorder-reminder')); ?>') + '</span>').show();
+					messageDiv.html('<span style="color: #dc3232;">' + (response.data || '<?php echo esc_js(__('Error saving preference', 'easy-reorder-reminder')); ?>') + '</span>').show();
 				}
 				button.prop('disabled', false).text(originalText);
 			},
 			error: function() {
-				messageDiv.html('<span style="color: #dc3232;"><?php echo esc_js(__('Error saving preference', 'woo-reorder-reminder')); ?></span>').show();
+				messageDiv.html('<span style="color: #dc3232;"><?php echo esc_js(__('Error saving preference', 'easy-reorder-reminder')); ?></span>').show();
 				button.prop('disabled', false).text(originalText);
 			}
 		});

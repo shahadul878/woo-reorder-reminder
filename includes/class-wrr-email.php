@@ -44,8 +44,8 @@ if (! class_exists('WRR_Email')) {
         public function __construct()
         {
             $this->id             = 'wrr_reorder_reminder';
-            $this->title          = __('Re-Order Reminder', 'woo-reorder-reminder');
-            $this->description    = __('Email sent to customers to remind them to reorder products.', 'woo-reorder-reminder');
+            $this->title          = __('Re-Order Reminder', 'easy-reorder-reminder');
+            $this->description    = __('Email sent to customers to remind them to reorder products.', 'easy-reorder-reminder');
             $this->customer_email = true;
             $this->template_html  = 'emails/reorder-reminder.php';
             $this->template_plain = 'emails/plain/reorder-reminder.php';
@@ -73,7 +73,7 @@ if (! class_exists('WRR_Email')) {
 	 */
         public function get_default_subject()
         {
-            return __('Time to reorder {product_name}!', 'woo-reorder-reminder');
+            return __('Time to reorder {product_name}!', 'easy-reorder-reminder');
         }
 
 	/**
@@ -83,7 +83,7 @@ if (! class_exists('WRR_Email')) {
 	 */
         public function get_default_heading()
         {
-            return __('Don\'t forget to reorder {product_name}', 'woo-reorder-reminder');
+            return __('Don\'t forget to reorder {product_name}', 'easy-reorder-reminder');
         }
 
 	/**
@@ -93,10 +93,10 @@ if (! class_exists('WRR_Email')) {
 	 */
         public function get_default_content()
         {
-            return __('Hi {customer_name},', 'woo-reorder-reminder') . "\n\n" .
-			__('It\'s been a while since you last purchased {product_name}. We wanted to remind you to reorder if you need it again.', 'woo-reorder-reminder') . "\n\n" .
-			__('Click here to add it to your cart: {reorder_link}', 'woo-reorder-reminder') . "\n\n" .
-			__('If you no longer wish to receive these reminders, you can unsubscribe here: {unsubscribe_link}', 'woo-reorder-reminder');
+            return __('Hi {customer_name},', 'easy-reorder-reminder') . "\n\n" .
+			__('It\'s been a while since you last purchased {product_name}. We wanted to remind you to reorder if you need it again.', 'easy-reorder-reminder') . "\n\n" .
+			__('Click here to add it to your cart: {reorder_link}', 'easy-reorder-reminder') . "\n\n" .
+			__('If you no longer wish to receive these reminders, you can unsubscribe here: {unsubscribe_link}', 'easy-reorder-reminder');
         }
 
 	/**
@@ -126,7 +126,7 @@ if (! class_exists('WRR_Email')) {
             }
 
             // Set placeholders
-            $this->placeholders['{customer_name}'] = $order->get_billing_first_name() ? $order->get_billing_first_name() : __('Customer', 'woo-reorder-reminder');
+            $this->placeholders['{customer_name}'] = $order->get_billing_first_name() ? $order->get_billing_first_name() : __('Customer', 'easy-reorder-reminder');
             $this->placeholders['{product_name}']  = $product->get_name();
             $this->placeholders['{reorder_link}']  = $this->get_reorder_link($product_id);
             $this->placeholders['{unsubscribe_link}'] = $this->get_unsubscribe_link($this->recipient);
@@ -287,42 +287,42 @@ if (! class_exists('WRR_Email')) {
         {
             $this->form_fields = array(
 			'enabled'    => array(
-				'title'   => __('Enable/Disable', 'woo-reorder-reminder'),
+				'title'   => __('Enable/Disable', 'easy-reorder-reminder'),
 				'type'    => 'checkbox',
-				'label'   => __('Enable this email notification', 'woo-reorder-reminder'),
+				'label'   => __('Enable this email notification', 'easy-reorder-reminder'),
 				'default' => 'yes',
 			),
 			'subject'    => array(
-				'title'       => __('Subject', 'woo-reorder-reminder'),
+				'title'       => __('Subject', 'easy-reorder-reminder'),
 				'type'        => 'text',
 				'desc_tip'    => true,
 				/* translators: %s: list of available placeholders */
-				'description' => sprintf(__('Available placeholders: %s', 'woo-reorder-reminder'), '{customer_name}, {product_name}, {reorder_link}'),
+				'description' => sprintf(__('Available placeholders: %s', 'easy-reorder-reminder'), '{customer_name}, {product_name}, {reorder_link}'),
 				'placeholder' => $this->get_default_subject(),
 				'default'     => '',
 			),
 			'heading'    => array(
-				'title'       => __('Email heading', 'woo-reorder-reminder'),
+				'title'       => __('Email heading', 'easy-reorder-reminder'),
 				'type'        => 'text',
 				'desc_tip'    => true,
 				/* translators: %s: list of available placeholders */
-				'description' => sprintf(__('Available placeholders: %s', 'woo-reorder-reminder'), '{customer_name}, {product_name}, {reorder_link}'),
+				'description' => sprintf(__('Available placeholders: %s', 'easy-reorder-reminder'), '{customer_name}, {product_name}, {reorder_link}'),
 				'placeholder' => $this->get_default_heading(),
 				'default'     => '',
 			),
 			'additional_content' => array(
-				'title'       => __('Additional content', 'woo-reorder-reminder'),
-				'description' => __('Text to appear below the main email content.', 'woo-reorder-reminder'),
+				'title'       => __('Additional content', 'easy-reorder-reminder'),
+				'description' => __('Text to appear below the main email content.', 'easy-reorder-reminder'),
 				'css'         => 'width:400px; height: 75px;',
-				'placeholder' => __('N/A', 'woo-reorder-reminder'),
+				'placeholder' => __('N/A', 'easy-reorder-reminder'),
 				'type'        => 'textarea',
 				'default'     => '',
 				'desc_tip'    => true,
 			),
 			'email_type' => array(
-				'title'       => __('Email type', 'woo-reorder-reminder'),
+				'title'       => __('Email type', 'easy-reorder-reminder'),
 				'type'        => 'select',
-				'description' => __('Choose which format of email to send.', 'woo-reorder-reminder'),
+				'description' => __('Choose which format of email to send.', 'easy-reorder-reminder'),
 				'default'     => 'html',
 				'class'       => 'email_type wc-enhanced-select',
 				'options'     => $this->get_email_type_options(),

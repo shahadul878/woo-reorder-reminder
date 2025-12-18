@@ -79,7 +79,7 @@ class WRR_Plugin {
 	 */
 	public function load_textdomain()
     {
-		load_plugin_textdomain('woo-reorder-reminder', false, dirname(WRR_BASENAME) . '/languages');
+		load_plugin_textdomain('easy-reorder-reminder', false, dirname(WRR_BASENAME) . '/languages');
 	}
 
 	/**

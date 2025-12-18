@@ -19,12 +19,12 @@ echo "= " . esc_html($email_heading) . " =\n\n";
 
 // Handle preview mode where order/product might be null
 $customer_name = $order && method_exists($order, 'get_billing_first_name')
-	? ( $order->get_billing_first_name() ? $order->get_billing_first_name() : __('Customer', 'woo-reorder-reminder') )
-	: __('Customer', 'woo-reorder-reminder');
+	? ( $order->get_billing_first_name() ? $order->get_billing_first_name() : __('Customer', 'easy-reorder-reminder') )
+	: __('Customer', 'easy-reorder-reminder');
 
 $product_name = $product && method_exists($product, 'get_name')
 	? $product->get_name()
-	: __('Sample Product', 'woo-reorder-reminder');
+	: __('Sample Product', 'easy-reorder-reminder');
 
 $product_id = $product && method_exists($product, 'get_id')
 	? $product->get_id()
@@ -49,26 +49,26 @@ $unsubscribe_link = add_query_arg(
 
 printf(
 	/* translators: %s: customer name */
-	esc_html__('Hi %s,', 'woo-reorder-reminder'),
+	esc_html__('Hi %s,', 'easy-reorder-reminder'),
 	esc_html($customer_name)
 );
 echo "\n\n";
 
 printf(
 	/* translators: %s: product name */
-	esc_html__('It\'s been a while since you last purchased %s. We wanted to remind you to reorder if you need it again.', 'woo-reorder-reminder'),
+	esc_html__('It\'s been a while since you last purchased %s. We wanted to remind you to reorder if you need it again.', 'easy-reorder-reminder'),
 	esc_html($product_name)
 );
 echo "\n\n";
 
-echo esc_html__('Re-Order Now:', 'woo-reorder-reminder') . "\n";
+echo esc_html__('Re-Order Now:', 'easy-reorder-reminder') . "\n";
 echo esc_url($reorder_link) . "\n\n";
 
 if ($additional_content) {
 	echo wp_kses_post($additional_content) . "\n\n";
 }
 
-echo esc_html__('If you no longer wish to receive these reminders, you can unsubscribe here:', 'woo-reorder-reminder') . "\n";
+echo esc_html__('If you no longer wish to receive these reminders, you can unsubscribe here:', 'easy-reorder-reminder') . "\n";
 echo esc_url($unsubscribe_link) . "\n\n";
 
 echo "\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n";
