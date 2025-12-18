@@ -86,7 +86,7 @@ jQuery(document).ready(function($) {
 		var button = form.find('button[type="submit"]');
 		var originalText = button.text();
 		
-		button.prop('disabled', true).text('<?php esc_html_e('Saving...', 'woo-reorder-reminder'); ?>');
+		button.prop('disabled', true).text('<?php echo esc_js(__('Saving...', 'woo-reorder-reminder')); ?>');
 		messageDiv.hide();
 		
 		$.ajax({
@@ -101,17 +101,17 @@ jQuery(document).ready(function($) {
 			},
 			success: function(response) {
 				if (response.success) {
-					messageDiv.html('<span style="color: #46b450;"><?php esc_html_e('✓ Preference saved successfully!', 'woo-reorder-reminder'); ?></span>').show();
+					messageDiv.html('<span style="color: #46b450;"><?php echo esc_js(__('✓ Preference saved successfully!', 'woo-reorder-reminder')); ?></span>').show();
 					setTimeout(function() {
 						messageDiv.fadeOut();
 					}, 3000);
 				} else {
-					messageDiv.html('<span style="color: #dc3232;">' + (response.data || '<?php esc_html_e('Error saving preference', 'woo-reorder-reminder'); ?>') + '</span>').show();
+					messageDiv.html('<span style="color: #dc3232;">' + (response.data || '<?php echo esc_js(__('Error saving preference', 'woo-reorder-reminder')); ?>') + '</span>').show();
 				}
 				button.prop('disabled', false).text(originalText);
 			},
 			error: function() {
-				messageDiv.html('<span style="color: #dc3232;"><?php esc_html_e('Error saving preference', 'woo-reorder-reminder'); ?></span>').show();
+				messageDiv.html('<span style="color: #dc3232;"><?php echo esc_js(__('Error saving preference', 'woo-reorder-reminder')); ?></span>').show();
 				button.prop('disabled', false).text(originalText);
 			}
 		});
