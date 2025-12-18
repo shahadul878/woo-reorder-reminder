@@ -158,7 +158,9 @@ class WRR_Logger {
 		$offset = absint($args['offset']);
 		$order  = 'DESC' === strtoupper($args['order']) ? 'DESC' : 'ASC';
 
-		$query = "SELECT * FROM $table_name WHERE $where ORDER BY sent_at $order LIMIT $limit OFFSET $offset";
+		// Table name is safe (from $wpdb->prefix), order is validated, limit/offset are sanitized
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$query = "SELECT * FROM `{$table_name}` WHERE {$where} ORDER BY sent_at {$order} LIMIT {$limit} OFFSET {$offset}";
 
 		return $wpdb->get_results($query, ARRAY_A);
 	}
@@ -186,7 +188,9 @@ class WRR_Logger {
 			$where .= $wpdb->prepare(' AND status = %s', $status);
 		}
 
-		$query = "SELECT COUNT(*) FROM $table_name WHERE $where";
+		// Table name is safe (from $wpdb->prefix), where clause uses prepare
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$query = "SELECT COUNT(*) FROM `{$table_name}` WHERE {$where}";
 
 		return (int) $wpdb->get_var($query);
 	}
