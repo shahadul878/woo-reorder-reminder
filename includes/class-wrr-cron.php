@@ -74,7 +74,7 @@ class WRR_Cron {
 
 		$global_days = absint(get_option('wrr_reminder_days', 30));
 		$timestamp   = strtotime("-{$global_days} days");
-		$date_from   = date('Y-m-d H:i:s', $timestamp);
+		$date_from   = gmdate('Y-m-d H:i:s', $timestamp);
 
 		// Get completed orders
 		$orders = wc_get_orders(

@@ -139,7 +139,9 @@ class WRR_Order {
 			$has_access = true;
 		} else {
 			// Check order key from referrer or session
-			$order_key = isset($_REQUEST['key']) ? wc_clean(wp_unslash($_REQUEST['key'])) : '';
+			// Order key is sanitized and validated against the order's key
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Input is sanitized with sanitize_text_field
+			$order_key = isset($_REQUEST['key']) ? sanitize_text_field(wp_unslash($_REQUEST['key'])) : '';
 			if ($order_key && $order->get_order_key() === $order_key) {
 				$has_access = true;
 			}

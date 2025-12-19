@@ -104,7 +104,21 @@ class WRR_Settings {
 	 */
 	public function save_product_fields($post_id)
     {
+		// Verify nonce - WooCommerce product save uses 'woocommerce_save_data' nonce
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce is verified below
+		if (! isset($_POST['woocommerce_meta_nonce'])) {
+			return;
+		}
+
+		// Verify nonce for product meta save (WooCommerce standard)
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Nonce verification only
+		if (! wp_verify_nonce(wp_unslash($_POST['woocommerce_meta_nonce']), 'woocommerce_save_data')) {
+			return;
+		}
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified above
 		$enable = isset($_POST['_wrr_enable']) ? 'yes' : 'no';
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified above
 		$days   = isset($_POST['_wrr_reminder_days']) ? absint($_POST['_wrr_reminder_days']) : '';
 
 		update_post_meta($post_id, '_wrr_enable', $enable);

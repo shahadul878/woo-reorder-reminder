@@ -1,8 +1,8 @@
 === Easy Re-Order Reminder for WooCommerce ===
 Contributors: shahadul878
-Tags: woocommerce, email, reminders, reorder, customer retention, marketing automation
+Tags: woocommerce, email, reminders, reorder, customer retention
 Requires at least: 5.8
-Tested up to: 6.4
+Tested up to: 6.9
 Requires PHP: 7.4
 Stable tag: 1.0.0
 License: GPLv2 or later
@@ -10,7 +10,7 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 WC requires at least: 5.0
 WC tested up to: 8.0
 
-Automatically remind customers to reorder products after a defined time period. Increase repeat sales with automated email reminders. Requires WooCommerce.
+Automatically remind customers to reorder products after a defined time period. Increase repeat sales with automated email reminders.
 
 == Description ==
 

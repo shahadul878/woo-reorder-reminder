@@ -162,6 +162,12 @@ class WRR_Settings_Page extends WC_Settings_Page {
 			wp_send_json_error(__('Permission denied', 'easy-reorder-reminder'));
 		}
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified above via check_ajax_referer
+		if (! isset($_POST['email'])) {
+			wp_send_json_error(__('Email address is required', 'easy-reorder-reminder'));
+		}
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified above via check_ajax_referer
 		$email = sanitize_email(wp_unslash($_POST['email']));
 		if (! $email) {
 			wp_send_json_error(__('Invalid email address', 'easy-reorder-reminder'));

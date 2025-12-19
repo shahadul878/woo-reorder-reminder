@@ -76,10 +76,15 @@ class WRR_Plugin {
 
 	/**
 	 * Load plugin textdomain
+	 * Note: For WordPress.org plugins, translations are loaded automatically since WordPress 4.6.
+	 * This method is kept for backward compatibility but does not call load_plugin_textdomain()
+	 * as it's discouraged for WordPress.org plugins.
 	 */
 	public function load_textdomain()
     {
-		load_plugin_textdomain('easy-reorder-reminder', false, dirname(WRR_BASENAME) . '/languages');
+		// WordPress.org automatically loads translations, so load_plugin_textdomain() is not needed.
+		// Translations are loaded automatically from the /languages directory.
+		// This method is kept for backward compatibility but remains empty.
 	}
 
 	/**
@@ -122,7 +127,10 @@ class WRR_Plugin {
 			$email_instance = WRR_Email::instance();
 
 			if (! $email_instance || ! is_a($email_instance, 'WC_Email')) {
-				error_log('WRR Debug: Email instance invalid or not WC_Email');
+				if (defined('WP_DEBUG') && WP_DEBUG) {
+					// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Debug logging only when WP_DEBUG is enabled
+					error_log('WRR Debug: Email instance invalid or not WC_Email');
+				}
 				return $emails;
 			}
 
@@ -131,12 +139,17 @@ class WRR_Plugin {
 			// Check if already registered to prevent duplicates
 			if (! isset($emails[ $email_instance->id ])) {
 				$emails[ $email_instance->id ] = $email_instance;
-				// Debug log
-				error_log('WRR Debug: Email registered with ID: ' . $email_instance->id);
+				if (defined('WP_DEBUG') && WP_DEBUG) {
+					// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Debug logging only when WP_DEBUG is enabled
+					error_log('WRR Debug: Email registered with ID: ' . $email_instance->id);
+				}
 			}
 		} catch (Exception $e) {
 			// Log error but don't break
-			error_log('WRR Email registration error: ' . $e->getMessage());
+			if (defined('WP_DEBUG') && WP_DEBUG) {
+				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Error logging for debugging
+				error_log('WRR Email registration error: ' . $e->getMessage());
+			}
 		}
 
 		return $emails;

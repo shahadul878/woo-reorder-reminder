@@ -54,14 +54,15 @@ if (! $has_reminder_products) {
 		
 		<select name="wrr_reminder_days" id="wrr_reminder_days" style="padding: 8px 12px; font-size: 14px; border: 1px solid #ccc; border-radius: 4px; min-width: 200px;">
 			<?php foreach ($day_options as $days) : ?>
+				<?php $days = absint($days); // Ensure days is an integer ?>
 				<option value="<?php echo esc_attr($days); ?>" <?php selected($selected_days, $days); ?>>
 					<?php
 					if (1 === $days) {
 						/* translators: %d: number of days (singular) */
-						printf(esc_html__('%d day', 'easy-reorder-reminder'), $days);
+						printf(esc_html__('%d day', 'easy-reorder-reminder'), esc_html($days));
 					} else {
 						/* translators: %d: number of days (plural) */
-						printf(esc_html__('%d days', 'easy-reorder-reminder'), $days);
+						printf(esc_html__('%d days', 'easy-reorder-reminder'), esc_html($days));
 					}
 					?>
 				</option>

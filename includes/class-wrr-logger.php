@@ -51,6 +51,7 @@ class WRR_Logger {
 		global $wpdb;
 		$table_name = $wpdb->prefix . 'wrr_logs';
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Table existence check is necessary and doesn't benefit from caching
 		if ($wpdb->get_var($wpdb->prepare('SHOW TABLES LIKE %s', $table_name)) !== $table_name) {
 			self::create_log_table();
 		}
@@ -103,6 +104,7 @@ class WRR_Logger {
 		// Ensure table exists
 		self::create_log_table();
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Logging requires direct database writes and cannot be cached
 		$result = $wpdb->insert(
 			$table_name,
 			array(
@@ -137,6 +139,7 @@ class WRR_Logger {
 		$table_name = $wpdb->prefix . $table_suffix;
 
 		// Ensure table exists before querying
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Table existence check is necessary and doesn't benefit from caching
 		if ($wpdb->get_var($wpdb->prepare('SHOW TABLES LIKE %s', $table_name)) !== $table_name) {
 			self::create_log_table();
 		}
@@ -176,6 +179,7 @@ class WRR_Logger {
 			);
 		}
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared -- Query is prepared above, log queries require direct access and real-time data (no caching)
 		return $wpdb->get_results($query, ARRAY_A);
 	}
 
@@ -194,6 +198,7 @@ class WRR_Logger {
 		$table_name = $wpdb->prefix . $table_suffix;
 
 		// Ensure table exists before querying
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Table existence check is necessary and doesn't benefit from caching
 		if ($wpdb->get_var($wpdb->prepare('SHOW TABLES LIKE %s', $table_name)) !== $table_name) {
 			self::create_log_table();
 		}
@@ -209,10 +214,12 @@ class WRR_Logger {
 				$status
 			);
 		} else {
+			// No user input in this query, table name is safe (from $wpdb->prefix)
 			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
 			$query = "SELECT COUNT(*) FROM `{$wpdb->prefix}wrr_logs` WHERE 1=1";
 		}
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared -- Query is prepared above (or contains no user input), log count queries require direct access and real-time data (no caching)
 		return (int) $wpdb->get_var($query);
 	}
 
@@ -229,6 +236,7 @@ class WRR_Logger {
 
 		$table_name = $wpdb->prefix . 'wrr_logs';
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Log status updates require direct database writes and cannot be cached
 		$result = $wpdb->update(
 			$table_name,
 			array( 'status' => sanitize_text_field($status) ),
